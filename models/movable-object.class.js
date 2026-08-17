@@ -16,14 +16,17 @@ class MovableObject extends DrawableObject {
   }
 
   isAboveground() {
+    if(this instanceof ThrowableObject) {
+      return true;
+    } else {
     return this.y < 230;
+    }
   }
 
-  isColliding(movable) {
-    return;
-    this.x + this.width > movable.x &&
+    isColliding(movable) {
+    return this.x + this.width > movable.x &&
+      this.x < movable.x + movable.width &&
       this.y + this.height > movable.y &&
-      this.x < movable.x &&
       this.y < movable.y + movable.height;
   }
 
@@ -61,6 +64,7 @@ class MovableObject extends DrawableObject {
     this.img = this.imageCache[path];
     this.currentImage++;
   }
+
   moveRight() {
     this.x += this.speed;
   }

@@ -27,6 +27,10 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "Space") {
     keyboard.SPACE = true;
   }
+
+  if (e.key.toLowerCase() === "d") {
+    keyboard.D = true;
+  }
 });
 
 window.addEventListener("keyup", (e) => {
@@ -48,6 +52,10 @@ window.addEventListener("keyup", (e) => {
 
   if (e.key === "Space") {
     keyboard.SPACE = false;
+  }
+
+   if (e.key.toLowerCase() === "d") {
+    keyboard.D = false;
   }
 });
 

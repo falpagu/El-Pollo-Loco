@@ -38,16 +38,15 @@ class Character extends MovableObject {
   ];
 
   IMAGES_HURT = [
-    "assets/img/2_character_pepe/4_hurt/H-41.png",
-    "assets/img/2_character_pepe/4_hurt/H-42.png",
-    "assets/img/2_character_pepe/4_hurt/H-43.png",
+  "assets/img/2_character_pepe/4_hurt/H-41.png",
+  "assets/img/2_character_pepe/4_hurt/H-42.png",
+  "assets/img/2_character_pepe/4_hurt/H-43.png"
   ];
 
   world;
 
   constructor() {
-    super();
-    this.loadImage("assets/img/2_character_pepe/2_walk/W-21.png");
+    super().loadImage("assets/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
@@ -76,6 +75,7 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
+
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
       } else if (this.isHurt()) {
@@ -89,4 +89,6 @@ class Character extends MovableObject {
       }
     }, 50);
   }
+
 }
+

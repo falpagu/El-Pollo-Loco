@@ -1,1 +1,4 @@
 some-notes.html
+.vscode/
+*.tmp
+*.log
