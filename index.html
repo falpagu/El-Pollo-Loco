@@ -10,22 +10,104 @@
   <body onload="init()">
     <h1>El Polo Loco</h1>
 
-    <canvas id="canvas" width="720" height="480"> </canvas>
+    <!-- <div class="game_container" id="gameContainer"> -->
+      <canvas id="canvas" width="720" height="480"> </canvas>
+<!-- 
+      <div id="startScreen" class="start_screen">
+        <img
+          src="./assets/img/9_intro_outro_screens/start/startscreen_1.png"
+          alt="Start Image"
+          class="start_image"
+        />
+        <button class="play_btn" onclick="startGame()">
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 409 409"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="204" cy="204" r="204" fill="#77583c" />
+            <circle cx="204" cy="204" r="173" fill="#F4502A" />
+            <polygon points="148,106 318,204 148,303" fill="white" />
+          </svg>
+        </button>
+      </div> -->
 
-    <script src="models/drawableObject.class.js"></script>
+      <!-- <button id="fullscreenBtn" onclick="toggleFullscreen()">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M8 2H4a2 2 0 0 0-2 2v4M16 2h4a2 2 0 0 1 2 2v4M16 22h4a2 2 0 0 0 2-2v-4M8 22H4a2 2 0 0 1-2-2v-4"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button> -->
+      
+    <!-- </div> -->
+
+    <!-- <div class="keys_container">
+      <div class="arrows">
+        <div class="keys">
+          <svg viewBox="0 0 512 512">
+            <circle cx="256" cy="256" r="240" fill="#fff" />
+            <path
+              d="M272 336l-64-64h150v-32H208l64-64-23-23-102 103 102 103z"
+              fill="#77583c"
+            />
+          </svg>
+          <span>move LEFT</span>
+        </div>
+
+        <div class="keys">
+          <svg viewBox="0 0 512 512">
+            <circle cx="256" cy="256" r="240" fill="#fff" />
+            <path
+              d="M240 336l64-64H154v-32h150l-64-64 23-23 102 103-102 103z"
+              fill="#77583c"
+            />
+          </svg>
+          <span>move RIGHT</span>
+        </div>
+      </div>
+
+      <div class="space_key">
+        <div class="keys">
+          <svg viewBox="0 0 24 24" fill="#fff">
+            <path
+              d="M20 11v2H4v-2a1 1 0 0 0-2 0v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a1 1 0 0 0-2 0Z"
+            />
+          </svg>
+          <span>JUMP</span>
+        </div>
+
+        <div class="keys">
+          <svg viewBox="0 0 64 64" fill="#77583c">
+            <circle cx="32" cy="32" r="30" fill="#fff" />
+            <path
+              d="M37.7 18.1c2 .7 3.7 1.9 4.9 3.7 1 1.4 1.7 3 2.1 4.7s.6 3.3.6 4.8c0 3.9-.8 7.1-2.3 9.8-2.1 3.6-5.3 5.4-9.7 5.4H20.7v-29h12.5c1.8 0 3.3.2 4.5.6m-11.1 4.4v18.9h5.6c2.9 0 4.9-1.4 6-4.2.6-1.5.9-3.4.9-5.5 0-3-.5-5.2-1.4-6.8-.9-1.6-2.8-2.4-5.5-2.4h-5.6"
+            />
+          </svg>
+          <span>throw BOTTLE</span>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <footer>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Legal Notice</a>
+      <p>
+        &copy; <span id="current-year"></span> Fesih Alpagu. All rights
+        reserved.
+      </p>
+    </footer> -->
+
     <script src="models/movable-object.class.js"></script>
-    <script src="models/cloud.class.js"></script>
-    <script src="models/chicken.class.js"></script>
-    <script src="models/level.class.js"></script>
     <script src="models/character.class.js"></script>
-    <script src="models/throwable-object.class.js"></script>
-    <script src="models/statusbar-images.class.js"></script>
-    <script src="models/statusbar.class.js"></script>
-    <script src="models/world.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/cloud.class.js"></script>
     <script src="models/background-object.class.js"></script>
-    <script src="models/keyboard.class.js"></script>
-    <script src="models/endboss.class.js"></script>
-    <script src="levels/level-1.js"></script>
+    <script src="models/world.class.js"></script>
     <script src="game.js"></script>
   </body>
 </html>
