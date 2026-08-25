@@ -24,16 +24,22 @@ class World {
 
   ctx;
   canvas;
+  keyboard;
 
-  constructor(canvas) {
+  constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
+    this.keyboard = keyboard;
     this.draw();
+    this.setWorld();
+  }
+
+  setWorld() {
+    this.character.world = this;
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     this.addObjectsToMap(this.backgroundObjects);
     this.addObjectsToMap(this.clouds);
     this.addObjectsToMap(this.enemies);
@@ -51,6 +57,13 @@ class World {
   }
 
   addToMap(movable) {
+    if(movable.otherDirection) {
+      this.ctx.save();
+      this.ctx.translate(movable.width, 0);
+      this.ctx.scale(-1, 1);
+      movable.x = movable.x * -1;
+    }
+
     this.ctx.drawImage(
       movable.img,
       movable.x,
@@ -58,5 +71,10 @@ class World {
       movable.width,
       movable.height,
     );
+
+    if(movable.otherDirection){
+      this.ctx.restore();
+      movable.x = movable.x * -1;
+    }
   }
 }
