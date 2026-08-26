@@ -1,30 +1,10 @@
 class World {
   character = new Character();
-  enemies = [new Chicken(), new Chicken(), new Chicken()];
-  clouds = [new Cloud()];
-
-  backgroundObjects = [
-      new BackgroundObject(
-      "assets/img/5_background/layers/air.png",
-      0,
-    ),
-    new BackgroundObject(
-      "assets/img/5_background/layers/3_third_layer/1.png",
-      0, 20
-    ),
-      new BackgroundObject(
-      "assets/img/5_background/layers/3_third_layer/1.png",
-      0,
-    ),
-      new BackgroundObject(
-      "assets/img/5_background/layers/1_first_layer/1.png",
-      0,
-    )
-  ];
-
+  level = level_1;
   ctx;
   canvas;
   keyboard;
+  camera_x = -100;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -40,10 +20,15 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.addObjectsToMap(this.backgroundObjects);
-    this.addObjectsToMap(this.clouds);
-    this.addObjectsToMap(this.enemies);
+
+    this.ctx.translate(this.camera_x, 0);
+
+    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
+
+    this.ctx.translate(-this.camera_x, 0);
 
     requestAnimationFrame(() => {
       this.draw();
@@ -51,13 +36,13 @@ class World {
   }
 
   addObjectsToMap(objects) {
-    objects.forEach(o => {
+    objects.forEach((o) => {
       this.addToMap(o);
     });
   }
 
   addToMap(movable) {
-    if(movable.otherDirection) {
+    if (movable.otherDirection) {
       this.ctx.save();
       this.ctx.translate(movable.width, 0);
       this.ctx.scale(-1, 1);
@@ -72,7 +57,7 @@ class World {
       movable.height,
     );
 
-    if(movable.otherDirection){
+    if (movable.otherDirection) {
       this.ctx.restore();
       movable.x = movable.x * -1;
     }
