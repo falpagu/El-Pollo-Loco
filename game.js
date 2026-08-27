@@ -26,7 +26,7 @@ window.addEventListener("keydown", (e) => {
     keyboard.DOWN = true;
   }
 
-  if (e.key === "Space") {
+  if (e.key === " ") {
     keyboard.SPACE = true;
   }
 
@@ -52,7 +52,7 @@ window.addEventListener("keyup", (e) => {
     keyboard.DOWN = false;
   }
 
-  if (e.key === "Space") {
+  if (e.key === " ") {
     keyboard.SPACE = false;
   }
 
