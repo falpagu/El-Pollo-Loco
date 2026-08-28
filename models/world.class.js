@@ -19,12 +19,11 @@ class World {
     this.character.world = this;
   }
 
-  checkCollisions(){
+  checkCollisions() {
     setInterval(() => {
       this.level.enemies.forEach((enemy) => {
-        if(this.character.isColliding(enemy)){
-          console.log('Collision with Character', enemy);
-          
+        if (this.character.isColliding(enemy)) {
+          this.character.hit();
         }
       });
     }, 200);
@@ -74,9 +73,7 @@ class World {
   }
 
   flipImageBack(movable) {
-
     movable.x = movable.x * -1;
     this.ctx.restore();
   }
 }
-
