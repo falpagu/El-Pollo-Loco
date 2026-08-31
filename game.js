@@ -31,7 +31,7 @@ window.addEventListener("keydown", (e) => {
   }
 
   if (e.key.toLowerCase() === "d") {
-    keyboard.D = treu;
+    keyboard.D = true;
   }
 });
 
