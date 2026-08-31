@@ -69,4 +69,16 @@ const level_1 = new Level (
       719 * 3,
     ),
   ],
+    [
+    new Coins(200, 300),
+    new Coins(400, 250),
+    new Coins(600, 300),
+    new Coins(800, 250),
+    new Coins(1000,300)
+  ],
+  [
+    new Bottles(300, 350),
+    new Bottles(550, 360),
+    new Bottles(900, 350)
+  ]
 );
