@@ -21,22 +21,18 @@ class MovableObject extends DrawableObject {
     } else {
  return this.y < 180;
     }
-   
   }
-
 
 
   isColliding(movable) {
-    return (
-      this.x + this.width > movable.x &&
+    return this.x + this.width > movable.x &&
+      this.x < movable.x + movable.width &&
       this.y + this.height > movable.y &&
-      this.x < movable.x &&
-      this.y < movable.y + movable.height
-    );
+      this.y < movable.y + movable.height;
   }
-
+  
   hit() {
-    this.energy -= 5;
+    this.energy -= 20;
     if (this.energy < 0) {
       this.energy = 0;
     } else {

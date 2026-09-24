@@ -8,7 +8,7 @@ class DrawableObject {
   width = 100;
 
   loadImage(path) {
-    this.img = new Image(); // hier Image ist gleich wie hier: this.img = document.getElementById('image) <img id="image">
+    this.img = new Image(); 
     this.img.src = path;
   }
 

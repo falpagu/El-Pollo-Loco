@@ -1,5 +1,7 @@
+const endboss = new Endboss();
+
 const level_1 = new Level (
-  [new Chicken(), new Chicken(), new Chicken(), new Endboss],
+  [new Chicken(), new Chicken(), new Chicken()],
   [new Cloud()],
   [
     new BackgroundObject("assets/img/5_background/layers/air.png", -719),
@@ -82,3 +84,6 @@ const level_1 = new Level (
     new Bottles(900, 350)
   ]
 );
+
+level_1.endboss = endboss;
+level_1.level_end_x = 2000;
