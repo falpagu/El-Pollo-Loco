@@ -87,6 +87,8 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.statusBarBottles.percentage > 0) {
+        SoundManager.sounds.throw.play(); 
+    SoundManager.sounds.throw.volume = 0.2;
       let bottle = new ThrowableObject(
         this.character.x + 100,
         this.character.y + 100,
@@ -99,10 +101,19 @@ class World {
   }
 
   checkCollision() {
-    this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && !this.character.isHurt()) {
-        this.character.hit();
-        this.statusBarHealth.setPercentage(this.character.energy);
+    this.level.enemies.forEach((enemy, index) => {
+      if (this.character.isColliding(enemy)) {
+        let characterFeet = this.character.y + this.character.height;
+        let enemyHead = enemy.y;
+
+        if (this.character.speedY < 0 && characterFeet < enemyHead + 40) {
+          this.level.enemies.splice(index, 1);
+          this.character.jump();
+        } else if (!this.character.isHurt()){
+          this.character.hit();
+          this.statusBarHealth.setPercentage(this.character.energy);
+        }
+       
       }
     });
 
@@ -168,7 +179,7 @@ class World {
     }
 
     movable.draw(this.ctx);
-    movable.drawFrame(this.ctx);
+    // movable.drawFrame(this.ctx);
 
     if (movable.otherDirection) {
       this.flipImageBack(movable);

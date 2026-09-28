@@ -1,8 +1,11 @@
 const endboss = new Endboss();
 
 const level_1 = new Level (
+
   [new Chicken(), new Chicken(), new Chicken()],
+
   [new Cloud()],
+  
   [
     new BackgroundObject("assets/img/5_background/layers/air.png", -719),
     new BackgroundObject(

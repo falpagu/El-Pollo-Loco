@@ -4,15 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>El Pollo Loco</title>
+    <link rel="icon" href="./assets/icons/favicon.png" type="image/png" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
-    <h1>El Polo Loco</h1>
+    <h1>El Pollo Loco</h1>
 
-   <div class="game_container" id="gameContainer"> 
-    <canvas id="canvas" width="719" height="480"> </canvas>
-    
+    <div class="game_container" id="gameContainer">
+      <canvas id="canvas" width="719" height="480"> </canvas>
+
       <div id="startScreen" class="start_screen">
         <img
           src="./assets/img/9_intro_outro_screens/start/startscreen_1.png"
@@ -31,9 +32,9 @@
             <polygon points="148,106 318,204 148,303" fill="white" />
           </svg>
         </button>
-      </div> 
+      </div>
 
-  <button id="fullscreenBtn" onclick="toggleFullscreen()">
+      <button id="fullscreenBtn" onclick="toggleFullscreen()">
         <svg viewBox="0 0 24 24" fill="none">
           <path
             d="M8 2H4a2 2 0 0 0-2 2v4M16 2h4a2 2 0 0 1 2 2v4M16 22h4a2 2 0 0 0 2-2v-4M8 22H4a2 2 0 0 1-2-2v-4"
@@ -42,11 +43,10 @@
             stroke-linecap="round"
           />
         </svg>
-      </button> 
+      </button>
+    </div>
 
- </div> 
-
-     <div class="keys_container">
+    <div class="keys_container">
       <div class="arrows">
         <div class="keys">
           <svg viewBox="0 0 512 512">
@@ -91,7 +91,7 @@
           <span>throw BOTTLE</span>
         </div>
       </div>
-    </div> 
+    </div>
 
     --
     <footer>
@@ -103,7 +103,7 @@
       </p>
     </footer>
 
-   <script src="models/drawable-object.class.js"></script>
+    <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/sound-manager.class.js"></script>
     <script src="models/coin.class.js"></script>

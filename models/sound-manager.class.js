@@ -1,7 +1,8 @@
 class SoundManager {
-      static sounds = {
+  static sounds = {
     background: new Audio("assets/audio/background.mp3"),
     walk: new Audio("./assets/audio/walk.mp3"),
+    chicken: new Audio("./assets/audio/chicken02.mp3"),
     jump: new Audio("assets/audio/jump.mp3"),
     coin: new Audio("assets/audio/coin.mp3"),
     bottle: new Audio("assets/audio/bottle.mp3"),

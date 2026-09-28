@@ -37,16 +37,13 @@ window.addEventListener("keydown", (e) => {
 
   if (e.key === " ") {
     keyboard.SPACE = true;
-     SoundManager.sounds.jump.play(); 
-    SoundManager.sounds.jump.volume = 0.2;
-       
-       
+    SoundManager.sounds.jump.play(); 
+    SoundManager.sounds.jump.volume = 0.2;       
   }
 
   if (e.key.toLowerCase() === "d") {
     keyboard.D = true;
-    SoundManager.sounds.throw.play(); 
-    SoundManager.sounds.throw.volume = 0.2;
+
   }
 });
 

@@ -55,6 +55,8 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
+      if (!this.world) return;
+      
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
       }
@@ -76,6 +78,7 @@ class Character extends MovableObject {
       } else if(this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
         SoundManager.sounds.hurt.play();
+        SoundManager.sounds.hurt.volume = 0.1;
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
@@ -93,6 +96,7 @@ class Character extends MovableObject {
   playWalkSound() {
   if (SoundManager.sounds.walk.paused) {
     SoundManager.sounds.walk.loop = true;
+    SoundManager.sounds.walk.volume = 0.9;
     SoundManager.sounds.walk.play();
   }
 }
