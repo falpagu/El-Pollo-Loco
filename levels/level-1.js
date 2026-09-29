@@ -1,9 +1,9 @@
-const endboss = new Endboss();
+let level_1;
 
-const level_1 = new Level (
+function initLevel() {
+level_1 = new Level (
 
   [new Chicken(), new Chicken(), new Chicken()],
-
   [new Cloud()],
   
   [
@@ -88,5 +88,7 @@ const level_1 = new Level (
   ]
 );
 
-level_1.endboss = endboss;
+level_1.endboss = new Endboss;
 level_1.level_end_x = 2000;
+
+}

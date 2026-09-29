@@ -37,7 +37,7 @@ class Character extends MovableObject {
   IMAGES_HURT = [
     "assets/img/2_character_pepe/4_hurt/H-41.png",
     "assets/img/2_character_pepe/4_hurt/H-42.png",
-    "assets/img/2_character_pepe/4_hurt/H-43.png"
+    "assets/img/2_character_pepe/4_hurt/H-43.png",
   ];
 
   world;
@@ -56,7 +56,7 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       if (!this.world) return;
-      
+
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
       }
@@ -75,7 +75,7 @@ class Character extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-      } else if(this.isHurt()) {
+      } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
         SoundManager.sounds.hurt.play();
         SoundManager.sounds.hurt.volume = 0.1;
@@ -92,17 +92,17 @@ class Character extends MovableObject {
     }, 50);
   }
 
-
+  
   playWalkSound() {
-  if (SoundManager.sounds.walk.paused) {
-    SoundManager.sounds.walk.loop = true;
-    SoundManager.sounds.walk.volume = 0.9;
-    SoundManager.sounds.walk.play();
+    if (SoundManager.sounds.walk.paused) {
+      SoundManager.sounds.walk.loop = true;
+      SoundManager.sounds.walk.volume = 0.9;
+      SoundManager.sounds.walk.play();
+    }
   }
-}
 
-stopWalkSound() {
-  SoundManager.sounds.walk.pause();
-  SoundManager.sounds.walk.currentTime = 0;
-}
+  stopWalkSound() {
+    SoundManager.sounds.walk.pause();
+    SoundManager.sounds.walk.currentTime = 0;
+  }
 }

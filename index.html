@@ -34,6 +34,17 @@
         </button>
       </div>
 
+      <div id="endScreen" class="end_screen">
+        <img id="endImage" class="end_image" alt="Game Over" />
+        <div class="end_buttons">
+             <button onclick="backToHome()">Home</button>
+          <button onclick="restartGame()">Restart</button>
+       
+        </div>
+      </div>
+
+      <button id="muteBtn" onclick="toggleSound()"></button>
+
       <button id="fullscreenBtn" onclick="toggleFullscreen()">
         <svg viewBox="0 0 24 24" fill="none">
           <path
@@ -93,7 +104,6 @@
       </div>
     </div>
 
-    --
     <footer>
       <a href="#">Privacy Policy</a>
       <a href="#">Legal Notice</a>

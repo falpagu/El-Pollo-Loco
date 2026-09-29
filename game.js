@@ -5,6 +5,7 @@ let keyboard = new Keyboard();
 function startGame() {
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("fullscreenBtn").style.display = "flex";
+  document.getElementById("muteBtn").style.display = "block";
   SoundManager.sounds.background.loop = true;
   SoundManager.sounds.background.volume = 0.02;
   SoundManager.sounds.background.play();
@@ -13,12 +14,45 @@ function startGame() {
 
 function init() {
   canvas = document.getElementById("canvas");
+  initLevel();
   world = new World(canvas, keyboard);
 }
 
-window.addEventListener("keydown", (e) => {
+function stopGame() {
+  const last = setInterval(() => {}, 100000);
+  for (let i = 0; i <= last; i++) clearInterval(i);
+  cancelAnimationFrame(world.animationFrame);
+  // SoundManager.sounds.pause();
+  SoundManager.sounds.walk.pause();
+  SoundManager.sounds.chicken.pause();
+}
 
-  
+function endGame(won) {
+  stopGame();
+  SoundManager.sounds.background.pause();
+  SoundManager.play(won ? "win" : "lose");
+  document.getElementById("endImage").src = won
+    ? "./assets/img/You won, you lost/You Won B.png"
+    : "./assets/img/You won, you lost/You lost.png";
+  document.getElementById("endScreen").style.display = "flex";
+}
+
+function restartGame() {
+  document.getElementById("endScreen").style.display = "none";
+  keyboard = new Keyboard();
+  SoundManager.sounds.background.currentTime = 0;
+  SoundManager.sounds.background.play();
+  init();
+}
+
+function backToHome() {
+  document.getElementById("endScreen").style.display = "none";
+  document.getElementById("startScreen").style.display = "flex";
+  document.getElementById("fullscreenBtn").style.display = "none";
+  document.getElementById("muteBtn").style.display = "none";
+}
+
+window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") {
     keyboard.LEFT = true;
   }
@@ -37,13 +71,12 @@ window.addEventListener("keydown", (e) => {
 
   if (e.key === " ") {
     keyboard.SPACE = true;
-    SoundManager.sounds.jump.play(); 
-    SoundManager.sounds.jump.volume = 0.2;       
+    SoundManager.sounds.jump.play();
+    SoundManager.sounds.jump.volume = 0.2;
   }
 
   if (e.key.toLowerCase() === "d") {
     keyboard.D = true;
-
   }
 });
 
@@ -76,7 +109,7 @@ window.addEventListener("keyup", (e) => {
 document.getElementById("current-year").textContent = new Date().getFullYear();
 
 function toggleFullscreen() {
-  let fullscreenElement = document.getElementById("canvas");
+  let fullscreenElement = document.getElementById("gameContainer");
 
   if (!document.fullscreenElement) {
     enterFullscreen(fullscreenElement);
@@ -85,21 +118,38 @@ function toggleFullscreen() {
   }
 }
 
-
 function enterFullscreen(element) {
   if (element.requestFullscreen) {
     element.requestFullscreen();
   } else if (element.webkitRequestFullscreen) {
     element.webkitRequestFullscreen();
-  } 
+  }
 }
-
 
 function exitFullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
-  } else if(document.webkitRequestFullscreen) {
-    document.webkitRequestFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
   }
 }
 
+function stopEndSounds() {
+  SoundManager.sounds.win.pause();
+  SoundManager.sounds.win.currentTime = 0;
+  SoundManager.sounds.lose.pause();
+  SoundManager.sounds.lose.currentTime = 0;
+}
+
+function updateMuteIcon() {
+  document.getElementById("muteBtn").innerHTML = SoundManager.muted
+    ? "🔇"
+    : "🔊";
+}
+
+function toggleSound() {
+  SoundManager.toggleMute();
+  updateMuteIcon();
+}
+
+updateMuteIcon();

@@ -12,10 +12,26 @@ class SoundManager {
     lose: new Audio("assets/audio/lose.mp3")
   };
 
+  static muted = localStorage.getItem('muted') === "true";
 
   static play(name) {
     let sound = this.sounds[name];
-    sound.currenttime = 0;
+    sound.currentTime = 0;
     sound.play();
   } 
+
+
+  static toggleMute() {
+    this.muted = !this.muted;
+    localStorage.setItem('muted', this.muted);
+    this.applyMute();
+  }
+
+  static applyMute() {
+    Object.values(this.sounds).forEach(sound => {
+      sound.muted = this.muted;
+    });
+  }
 }
+
+SoundManager.applyMute();
