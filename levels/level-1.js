@@ -89,6 +89,8 @@ level_1 = new Level (
 );
 
 level_1.endboss = new Endboss;
-level_1.level_end_x = 2000;
+level_1.endboss.x = 1900;
+level_1.endboss.active = false;
+level_1.level_end_x = 2200;
 
 }

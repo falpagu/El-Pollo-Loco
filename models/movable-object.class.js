@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
   accelartion = 2.5;
   energy = 100;
   lastHit = 0;
+  deadFrame = 0;
 
   applyGravity() {
     setInterval(() => {
@@ -16,21 +17,22 @@ class MovableObject extends DrawableObject {
   }
 
   isAboveGround() {
-    if(this instanceof ThrowableObject){
+    if (this instanceof ThrowableObject) {
       return true;
     } else {
- return this.y < 180;
+      return this.y < 180;
     }
   }
 
-
   isColliding(movable) {
-    return this.x + this.width > movable.x &&
+    return (
+      this.x + this.width > movable.x &&
       this.x < movable.x + movable.width &&
       this.y + this.height > movable.y &&
-      this.y < movable.y + movable.height;
+      this.y < movable.y + movable.height
+    );
   }
-  
+
   hit() {
     this.energy -= 20;
     if (this.energy < 0) {
@@ -58,6 +60,7 @@ class MovableObject extends DrawableObject {
   }
 
   moveRight() {
+    if(this.world.isPaused) return;
     this.x += this.speed;
     this.otherDirection = false;
   }
@@ -70,4 +73,12 @@ class MovableObject extends DrawableObject {
   jump() {
     this.speedY = 30;
   }
+
+    playDeadAnimation() {
+    if (this.deadFrame < this.IMAGES_DEAD.length) {
+      this.img = this.imageCache[this.IMAGES_DEAD[this.deadFrame]];
+      this.deadFrame++;
+    }
+  }
+
 }

@@ -224,3 +224,16 @@ footer a:hover {
     color: #77583c;
 }
 
+/* MOBILE */
+
+@media only screen and (max-width: 719px) {
+    canvas {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+}

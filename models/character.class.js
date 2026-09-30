@@ -1,7 +1,8 @@
 class Character extends MovableObject {
   height = 250;
-  y = 80;
+  y = 190;
   speed = 10;
+ 
 
   IMAGES_WALKING = [
     "assets/img/2_character_pepe/2_walk/W-21.png",
@@ -57,6 +58,11 @@ class Character extends MovableObject {
     setInterval(() => {
       if (!this.world) return;
 
+      if (this.isDead()) {
+        this.stopWalkSound();
+        return;
+      }
+
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
       }
@@ -73,26 +79,27 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
+      if (!this.world) return;
+
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        this.playDeadAnimation();
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
         SoundManager.sounds.hurt.play();
         SoundManager.sounds.hurt.volume = 0.1;
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
-      } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.IMAGES_WALKING);
           this.playWalkSound();
         } else {
           this.stopWalkSound();
         }
-      }
     }, 50);
   }
 
-  
+
+
   playWalkSound() {
     if (SoundManager.sounds.walk.paused) {
       SoundManager.sounds.walk.loop = true;

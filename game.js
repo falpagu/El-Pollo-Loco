@@ -22,7 +22,6 @@ function stopGame() {
   const last = setInterval(() => {}, 100000);
   for (let i = 0; i <= last; i++) clearInterval(i);
   cancelAnimationFrame(world.animationFrame);
-  // SoundManager.sounds.pause();
   SoundManager.sounds.walk.pause();
   SoundManager.sounds.chicken.pause();
 }
@@ -40,6 +39,7 @@ function endGame(won) {
 function restartGame() {
   document.getElementById("endScreen").style.display = "none";
   keyboard = new Keyboard();
+  stopEndSounds();
   SoundManager.sounds.background.currentTime = 0;
   SoundManager.sounds.background.play();
   init();
@@ -153,3 +153,10 @@ function toggleSound() {
 }
 
 updateMuteIcon();
+
+
+window.addEventListener("keydown", (e) => {
+  if (e.code === "Escape") {
+    world.togglePause();
+  }
+});
