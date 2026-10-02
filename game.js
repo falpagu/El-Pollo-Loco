@@ -160,3 +160,16 @@ window.addEventListener("keydown", (e) => {
     world.togglePause();
   }
 });
+
+
+document.querySelectorAll(".touch_controls button").forEach((btn) => {
+  const key = btn.dataset.key;
+  btn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard[key] = true;
+  });
+  btn.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard[key] = false;
+  });
+});
