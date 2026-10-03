@@ -1,22 +1,81 @@
+/**
+ * Base class for all objects that are drawn on the canvas.
+ * Handles image loading, caching and drawing.
+ */
 class DrawableObject {
+  /**
+   * Image that is currently drawn.
+   * @type {HTMLImageElement}
+   */
   img;
+
+  /**
+   * Cache of preloaded images, with the image path as key.
+   * @type {Object<string, HTMLImageElement>}
+   */
   imageCache = {};
+
+  /**
+   * Index of the current frame in an animation.
+   * @type {number}
+   */
   currentImage = 0;
+
+  /**
+   * X position on the canvas or in the level.
+   * @type {number}
+   */
   x = 120;
+
+  /**
+   * Y position on the canvas or in the level.
+   * @type {number}
+   */
   y = 280;
+
+  /**
+   * Height of the object in pixels.
+   * @type {number}
+   */
   height = 150;
+
+  /**
+   * Width of the object in pixels.
+   * @type {number}
+   */
   width = 100;
 
+  /**
+   * Loads a single image and sets it as the current image.
+   *
+   * @param {string} path - Path to the image file.
+   * @returns {void}
+   */
   loadImage(path) {
-    this.img = new Image(); 
+    this.img = new Image();
     this.img.src = path;
   }
 
+
+  /**
+   * Draws the current image onto the canvas.
+   *
+   * @param {CanvasRenderingContext2D} ctx - 2D drawing context of the canvas.
+   * @returns {void}
+   */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
-    drawFrame(ctx) {
+
+  /**
+   * Draws a blue debug frame around the hitbox.
+   * Only applies to {@link Character} and {@link Chicken}.
+   *
+   * @param {CanvasRenderingContext2D} ctx - 2D drawing context of the canvas.
+   * @returns {void}
+   */
+  drawFrame(ctx) {
     if (this instanceof Character || this instanceof Chicken) {
       ctx.beginPath();
       ctx.lineWidth = "5";
@@ -26,7 +85,15 @@ class DrawableObject {
     }
   }
 
-    loadImages(arr) {
+  
+  /**
+   * Preloads multiple images into {@link DrawableObject#imageCache}
+   * so they can be used for animations.
+   *
+   * @param {string[]} arr - List of image paths.
+   * @returns {void}
+   */
+  loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
       img.src = path;

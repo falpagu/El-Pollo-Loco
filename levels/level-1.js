@@ -1,30 +1,30 @@
 /**
- * Aktuelles Level des Spiels. Wird bei jedem Start/Restart
- * durch {@link initLevel} neu erzeugt.
+ * Current level of the game. Recreated on every start/restart
+ * by {@link initLevel}.
  * @type {Level}
  */
 let level_1;
 
 /**
- * Initialisiert das Level und weist es der globalen Variable {@link level_1} zu.
+ * Initializes the level and assigns it to the global variable {@link level_1}.
  *
- * Bei jedem Aufruf werden neue Instanzen von Gegnern, Wolken, Hintergründen,
- * Münzen, Flaschen und Endboss erzeugt. Dadurch startet das Spiel beim Restart
- * ohne Seiten-Reload wieder im Ausgangszustand.
+ * On every call, new instances of enemies, clouds, background objects,
+ * coins, bottles and the endboss are created. This way the game starts
+ * in its initial state again after a restart, without reloading the page.
  *
- * Muss vor `new World(...)` aufgerufen werden.
+ * Must be called before `new World(...)`.
  *
  * @returns {void}
  */
 function initLevel() {
   level_1 = new Level(
-    // Gegner
+    // Enemies
     [new Chicken(), new Chicken(), new Chicken()],
 
-    // Wolken
+    // Clouds
     [new Cloud()],
 
-    // Hintergrundobjekte (Abschnitte à 719 px, je Luft + 2 Mittelebenen + Vordergrund)
+    // Background objects (sections of 719 px, each: air + 2 middle layers + foreground)
     [
       new BackgroundObject("assets/img/5_background/layers/air.png", -719),
       new BackgroundObject(
@@ -97,7 +97,7 @@ function initLevel() {
       ),
     ],
 
-    // Münzen (x, y)
+    // Coins (x, y)
     [
       new Coins(200, 300),
       new Coins(400, 250),
@@ -106,7 +106,7 @@ function initLevel() {
       new Coins(1000, 300),
     ],
 
-    // Flaschen (x, y)
+    // Bottles (x, y)
     [new Bottles(300, 350), new Bottles(550, 360), new Bottles(900, 350)],
   );
 

@@ -1,9 +1,25 @@
+/**
+ * Collectible coin. Picked up by the character and increases
+ * the coin counter.
+ *
+ * @extends DrawableObject
+ */
 class Coins extends DrawableObject {
+  /**
+   * Image paths of the two coin variants that are preloaded.
+   * @type {string[]}
+   */
   IMAGES_COIN = [
     "assets/img/8_coin/coin_1.png",
     "assets/img/8_coin/coin_2.png",
   ];
 
+  /**
+   * Creates a coin at the given position.
+   *
+   * @param {number} x - X position in the level.
+   * @param {number} y - Y position in the level.
+   */
   constructor(x, y) {
     super();
     this.loadImage("assets/img/8_coin/coin_1.png");
