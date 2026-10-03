@@ -54,11 +54,67 @@
           />
         </svg>
       </button>
+
       <div class="touch_controls">
-        <button data-key="LEFT">◀</button>
-        <button data-key="SPACE">⤒</button>
-        <button data-key="D">🍾</button>
-          <button data-key="RIGHT">▶</button>
+        <button data-key="LEFT">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M15 4 7 12l8 8" />
+          </svg>
+        </button>
+        <button data-key="SPACE">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m4 15 8-8 8 8" />
+          </svg>
+        </button>
+        <button data-key="D">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <g transform="rotate(45 12 12)">
+              <path d="M10.5 1.5h3" />
+              <path d="M10.8 1.5v1.8h2.4V1.5" />
+              <path
+                d="M10.8 3.3v4.2c0 .8-2.8 2-2.8 5V20a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-7.5c0-3-2.8-4.2-2.8-5V3.3"
+              />
+              <path d="M8 14h8" />
+            </g>
+          </svg>
+        </button>
+        <button data-key="RIGHT">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m9 4 8 8-8 8" />
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -137,4 +193,9 @@
     <script src="levels/level-1.js"></script>
     <script src="game.js"></script>
   </body>
+
+  <div class="rotate_hint">
+    <span>📱↻</span>
+    <p>Please rotate your device to landscape mode.</p>
+  </div>
 </html>

@@ -114,7 +114,6 @@ canvas {
     width: 32px;    
    } 
 
-
 .D {
     height: 24px;
     border-radius: 8px;
@@ -182,7 +181,6 @@ canvas {
   max-height: 60%;
 }
 
-
 .end_buttons {
   position: absolute;
   bottom: 20px;
@@ -204,7 +202,6 @@ canvas {
   font-family: rye;
 }
 
-
 /* ------FOOTER------- */
 
 footer {
@@ -216,7 +213,7 @@ footer {
      font-size: 1.1rem;
 }
 
-footer a {
+footer a, p {
     cursor: pointer;
     text-decoration: none;
     color: rgb(223, 223, 217);
@@ -237,7 +234,6 @@ footer a:hover {
     font-size: 1rem;  
     gap: 5px;  
 }
-
 }
 
 @media(max-width: 600px) {
@@ -266,7 +262,7 @@ footer a:hover {
     left: 8px;
     right: 8px;
     z-index: 3;
-    pointer-events: none;
+    pointer-events: none;  
   }
 
   .touch_controls button {
@@ -274,10 +270,32 @@ footer a:hover {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    border: none;
-    background: rgba(0, 0, 0, 0.4);
+    border: 4px solid #77583c;
+    background: #F4502A;
     color: #fff;
-    font-size: 20px;
+    font-size: 30px;
     touch-action: none;
+    display: flex;
+  align-items: center;
+
   }
+}
+
+.rotate_hint { display: none; }
+
+@media (max-width: 720px) and (orientation: portrait) {
+  .rotate_hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+    color: rgb(223, 223, 217);
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  .rotate_hint span { font-size: 4rem; }
 }
