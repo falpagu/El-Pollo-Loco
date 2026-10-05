@@ -1,6 +1,6 @@
 /**
  * Central manager for all game sounds. Holds one `Audio` object per sound
- * and handles playing and muting. The mute state is stored in `localStorage`.
+ * and handles playing, pausing and muting. The mute state is stored in `localStorage`.
  */
 class SoundManager {
   /**
@@ -30,6 +30,12 @@ class SoundManager {
   static muted = localStorage.getItem("muted") === "true";
 
   /**
+   * Sounds that were playing when the game was paused.
+   * @type {HTMLAudioElement[]}
+   */
+  static pausedSounds = [];
+
+  /**
    * Plays a sound from the beginning. If it is already playing,
    * it restarts.
    *
@@ -40,6 +46,28 @@ class SoundManager {
     let sound = this.sounds[name];
     sound.currentTime = 0;
     sound.play();
+  }
+
+  /**
+   * Pauses all currently playing sounds and remembers them,
+   * so {@link SoundManager.resumeAll} can continue them.
+   *
+   * @returns {void}
+   */
+  static pauseAll() {
+    this.pausedSounds = Object.values(this.sounds).filter((s) => !s.paused);
+    this.pausedSounds.forEach((s) => s.pause());
+  }
+
+  /**
+   * Resumes the sounds that were paused by {@link SoundManager.pauseAll}
+   * from the position where they stopped.
+   *
+   * @returns {void}
+   */
+  static resumeAll() {
+    this.pausedSounds.forEach((s) => s.play());
+    this.pausedSounds = [];
   }
 
   /**
@@ -54,7 +82,6 @@ class SoundManager {
     this.applyMute();
   }
 
-  
   /**
    * Sets the `muted` property of every sound to the current mute state.
    *

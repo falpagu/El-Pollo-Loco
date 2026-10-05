@@ -57,11 +57,13 @@ class Chicken extends MovableObject {
    */
   animate() {
     setInterval(() => {
+      if (this.isGamePaused()) return;
       this.moveLeft();
       this.otherDirection = false;
     }, 1000 / 60);
 
     setInterval(() => {
+      if (this.isGamePaused()) return;
       this.playAnimation(this.IMAGES_WALKING);
       SoundManager.sounds.chicken.play();
       SoundManager.sounds.chicken.volume = 0.01;

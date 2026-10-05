@@ -48,14 +48,25 @@ class MovableObject extends DrawableObject {
    */
   deadFrame = 0;
 
-  /**
-   * Starts the gravity loop (25 times per second). The object falls
-   * while it is above the ground or still moving upwards.
-   *
-   * @returns {void}
-   */
+
+    /**
+ * Checks whether the game is currently paused.
+ *
+ * @returns {boolean} True if the world is paused.
+ */
+isGamePaused() {
+  return typeof world !== "undefined" && !!world && world.isPaused;
+}
+
+
+/**
+ * Starts the gravity loop (25 times per second). Skipped while paused.
+ *
+ * @returns {void}
+ */
   applyGravity() {
     setInterval(() => {
+      if(this.isGamePaused()) return;
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.accelartion;
@@ -150,12 +161,10 @@ class MovableObject extends DrawableObject {
 
   /**
    * Moves the object to the right by {@link MovableObject#speed}.
-   * Does nothing while the world is paused.
    *
    * @returns {void}
    */
   moveRight() {
-    if (this.world.isPaused) return;
     this.x += this.speed;
     this.otherDirection = false;
   }

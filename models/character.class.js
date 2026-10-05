@@ -98,7 +98,6 @@ class Character extends MovableObject {
     this.animate();
   }
 
-
   /**
    * Starts the movement loop and the animation loop.
    *
@@ -109,7 +108,6 @@ class Character extends MovableObject {
     setInterval(() => this.updateAnimation(), 50);
   }
 
-
   /**
    * Handles input, movement and camera (60 times per second).
    * Does nothing as long as no world is set; when dead, only the
@@ -118,6 +116,7 @@ class Character extends MovableObject {
    * @returns {void}
    */
   updateMovement() {
+    if (this.isGamePaused()) return;
     if (!this.world) return;
     if (this.isDead()) {
       this.stopWalkSound();
@@ -129,7 +128,6 @@ class Character extends MovableObject {
     }
     this.world.camera_x = -this.x + 100;
   }
-
 
   /**
    * Moves the character left or right, limited by the level start and end.
@@ -145,7 +143,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Selects the matching animation (20 times per second).
    * Priority: dead, hurt, in the air, walking, standing.
@@ -153,6 +150,7 @@ class Character extends MovableObject {
    * @returns {void}
    */
   updateAnimation() {
+    if (this.isGamePaused()) return;
     if (!this.world) return;
     if (this.isDead()) {
       this.playDeadAnimation(this.IMAGES_DEAD);
@@ -164,7 +162,6 @@ class Character extends MovableObject {
       this.animateGround();
     }
   }
-
 
   /**
    * Plays the walking animation with sound, or stops the sound when standing still.
@@ -180,7 +177,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Plays the walking sound as a loop if it is not already playing.
    *
@@ -194,7 +190,6 @@ class Character extends MovableObject {
     }
   }
 
-  
   /**
    * Stops the walking sound and resets it to the beginning.
    *

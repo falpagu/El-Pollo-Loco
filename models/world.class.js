@@ -51,11 +51,11 @@ class World {
    */
   gameOver = false;
 
-  /**
-   * Currently unused.
-   * @type {boolean}
-   */
-  enemiesActive = false;
+  // /**
+  //  * Currently unused.
+  //  * @type {boolean}
+  //  */
+  // enemiesActive = false;
 
   /**
    * Whether the game is paused.
@@ -95,32 +95,37 @@ class World {
     this.run();
   }
 
-
-  /**
-   * Alternative game loop (60 times per second) that skips all work while
-   * paused. Currently not called anywhere, and it uses `updateCamera()`,
-   * which does not exist in this class.
-   *
-   * @returns {void}
-   */
-  animate() {
-    setInterval(() => {
-      if (this.isPaused) return;
-
-      this.checkCollision();
-      this.checkThrowObjects();
-      this.updateCamera();
-    }, 1000 / 60);
-  }
+  // /**
+  //  * Alternative game loop (60 times per second) that skips all work while
+  //  * paused. Currently not called anywhere, and it uses `updateCamera()`,
+  //  * which does not exist in this class.
+  //  *
+  //  * @returns {void}
+  //  */
+  // animate() {
+  //   setInterval(() => {
+  //     if(this.isPaused) return;
+  //     this.checkCollision();
+  //     this.checkThrowObjects();
+  //     this.updateCamera();
+  //   }, 1000 / 60);
+  // }
 
 
-  /**
-   * Switches between paused and running.
-   *
-   * @returns {void}
-   */
+/**
+ * Switches between paused and running. Pauses or resumes all sounds.
+ * Does nothing after the game is over.
+ *
+ * @returns {void}
+ */
   togglePause() {
+    if(this.gameOver) return;
     this.isPaused = !this.isPaused;
+    if (this.isPaused) {
+      SoundManager.pauseAll();
+    } else {
+      SoundManager.resumeAll();
+    }
   }
 
 
@@ -134,16 +139,14 @@ class World {
   }
 
 
-  /**
-   * Starts the game loops:
-   * 1. Every 200 ms: collisions, throwing, game end, boss activation.
-   * 2. Every 2000 ms: spawning and cleanup of objects.
-   * 3. Every 50 ms: bottle hit detection.
-   *
-   * @returns {void}
-   */
+ /**
+ * Starts the game loops. All of them skip their work while paused.
+ *
+ * @returns {void}
+ */
   run() {
     setInterval(() => {
+      if(this.isPaused) return;
       this.checkCollision();
       this.checkThrowObjects();
       this.checkGameEnd();
@@ -151,6 +154,7 @@ class World {
     }, 200);
 
     setInterval(() => {
+      if(this.isPaused) return;
       this.spawnEnemies();
       this.spawnCoins();
       this.spawnBottles();
@@ -158,6 +162,7 @@ class World {
     }, 2000);
 
     setInterval(() => {
+      if(this.isPaused) return;
       this.checkBottleHits();
     }, 50);
   }
