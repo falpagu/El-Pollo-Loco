@@ -23,6 +23,11 @@ class Chicken extends MovableObject {
    */
   y = 380;
 
+  /** * Image paths of the walking animation. 
+  * @type {string[]} 
+  */
+  isDead = false;
+
   /**
    * Image paths of the walking animation.
    * @type {string[]}
@@ -33,37 +38,56 @@ class Chicken extends MovableObject {
     "assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
 
+  /** 
+  * Image paths of the dead chicken. 
+  * @type {string[]} 
+  */
+  IMAGES_DEAD = [
+    "assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"
+  ];
+
   /**
-   * Creates a chicken, loads its images, places it at a random X position
-   * (200 to 700), assigns a random speed (0.15 to 0.5) and starts the animation.
-   */
+  * Creates a chicken, loads its images, places it at a random X position 
+  * (200 to 700), assigns a random speed (0.15 to 0.5) and starts the animation. 
+  */
   constructor() {
     super();
     this.loadImage(
       "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
     );
     this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_DEAD);
     this.x = 200 + Math.random() * 500;
     this.animate();
     this.speed = 0.15 + Math.random() * 0.35;
   }
 
-  /**
-   * Starts two intervals:
-   * 1. Movement to the left (60 times per second).
-   * 2. Walking animation and chicken sound (every 200 ms).
-   *
-   * @returns {void}
-   */
+
+  /** 
+  * Changes the chicken image to its dead image. 
+  * @returns {void} 
+  */
+  die() {
+    this.img = this.imageCache[ "assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
+  }
+
+
+  /** * Starts two intervals: 
+  * 1. Movement to the left (60 times per second). 
+  * 2. Walking animation and chicken sound (every 200 ms).
+  * @returns {void} 
+  */
   animate() {
     setInterval(() => {
       if (this.isGamePaused()) return;
+      if(this.isDead) return;
       this.moveLeft();
       this.otherDirection = false;
     }, 1000 / 60);
 
     setInterval(() => {
       if (this.isGamePaused()) return;
+      if(this.isDead) return;
       this.playAnimation(this.IMAGES_WALKING);
       SoundManager.sounds.chicken.play();
       SoundManager.sounds.chicken.volume = 0.01;

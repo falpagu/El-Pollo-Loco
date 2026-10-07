@@ -51,12 +51,6 @@ class World {
    */
   gameOver = false;
 
-  // /**
-  //  * Currently unused.
-  //  * @type {boolean}
-  //  */
-  // enemiesActive = false;
-
   /**
    * Whether the game is paused.
    * @type {boolean}
@@ -95,31 +89,14 @@ class World {
     this.run();
   }
 
-  // /**
-  //  * Alternative game loop (60 times per second) that skips all work while
-  //  * paused. Currently not called anywhere, and it uses `updateCamera()`,
-  //  * which does not exist in this class.
-  //  *
-  //  * @returns {void}
-  //  */
-  // animate() {
-  //   setInterval(() => {
-  //     if(this.isPaused) return;
-  //     this.checkCollision();
-  //     this.checkThrowObjects();
-  //     this.updateCamera();
-  //   }, 1000 / 60);
-  // }
-
-
-/**
- * Switches between paused and running. Pauses or resumes all sounds.
- * Does nothing after the game is over.
- *
- * @returns {void}
- */
+  /**
+   * Switches between paused and running. Pauses or resumes all sounds.
+   * Does nothing after the game is over.
+   *
+   * @returns {void}
+   */
   togglePause() {
-    if(this.gameOver) return;
+    if (this.gameOver) return;
     this.isPaused = !this.isPaused;
     if (this.isPaused) {
       SoundManager.pauseAll();
@@ -127,7 +104,6 @@ class World {
       SoundManager.resumeAll();
     }
   }
-
 
   /**
    * Gives the character a reference to this world.
@@ -138,23 +114,22 @@ class World {
     this.character.world = this;
   }
 
-
- /**
- * Starts the game loops. All of them skip their work while paused.
- *
- * @returns {void}
- */
+  /**
+   * Starts the game loops. All of them skip their work while paused.
+   *
+   * @returns {void}
+   */
   run() {
     setInterval(() => {
-      if(this.isPaused) return;
+      if (this.isPaused) return;
       this.checkCollision();
       this.checkThrowObjects();
       this.checkGameEnd();
       this.checkEndbossActivation();
-    }, 200);
+    }, 50);
 
     setInterval(() => {
-      if(this.isPaused) return;
+      if (this.isPaused) return;
       this.spawnEnemies();
       this.spawnCoins();
       this.spawnBottles();
@@ -162,11 +137,10 @@ class World {
     }, 2000);
 
     setInterval(() => {
-      if(this.isPaused) return;
+      if (this.isPaused) return;
       this.checkBottleHits();
     }, 50);
   }
-
 
   /**
    * Ends the game once, 1.5 seconds after the character or the end boss
@@ -185,7 +159,6 @@ class World {
     }
   }
 
-
   /**
    * Spawns a new chicken ahead of the character, up to 8 enemies,
    * as long as the character is not near the end of the level.
@@ -203,7 +176,6 @@ class World {
       this.level.enemies.push(chicken);
     }
   }
-
 
   /**
    * Spawns a coin at a random position ahead of the character,
@@ -224,7 +196,6 @@ class World {
     }
   }
 
-
   /**
    * Spawns a bottle on the ground ahead of the character,
    * up to 8 bottles.
@@ -241,7 +212,6 @@ class World {
       this.level.bottles.push(new Bottles(x, 370));
     }
   }
-
 
   /**
    * Removes enemies, coins and bottles that are more than 800 px
@@ -260,7 +230,6 @@ class World {
       (b) => b.x > this.character.x - 800,
     );
   }
-
 
   /**
    * Throws a bottle when D is pressed, the bottle bar is not empty and
@@ -292,7 +261,6 @@ class World {
     }
   }
 
-
   /**
    * Checks all collisions of the character with enemies, the end boss,
    * coins and bottles. Does nothing while the character is dead.
@@ -307,7 +275,6 @@ class World {
     this.checkBottleCollisions();
   }
 
-
   /**
    * Handles contact with normal enemies: stomp from above or damage.
    *
@@ -317,15 +284,17 @@ class World {
     this.level.enemies.forEach((enemy, index) => {
       if (!this.character.isColliding(enemy)) return;
       if (this.isStomp(enemy)) {
-        this.level.enemies.splice(index, 1);
+        enemy.die();
         this.playSound("smash", 0.4);
         this.character.jump();
+        setTimeout(() => {
+          this.level.enemies.splice(index, 1);
+        }, 300);
       } else if (!this.character.isHurt()) {
         this.damageCharacter();
       }
     });
   }
-
 
   /**
    * Checks whether the character lands on top of the given enemy.
@@ -337,7 +306,6 @@ class World {
     let characterFeet = this.character.y + this.character.height;
     return this.character.speedY < 0 && characterFeet < enemy.y + 40;
   }
-
 
   /**
    * Damages the character when touching the living end boss.
@@ -355,7 +323,6 @@ class World {
     }
   }
 
-
   /**
    * Reduces the character's energy, plays the hurt sound and
    * updates the health bar.
@@ -367,7 +334,6 @@ class World {
     this.playSound("hurt", 0.1);
     this.statusBarHealth.setPercentage(this.character.energy);
   }
-
 
   /**
    * Collects coins the character touches and updates the coin bar.
@@ -382,7 +348,6 @@ class World {
       this.statusBarCoins.setPercentage(this.statusBarCoins.percentage + 20);
     });
   }
-
 
   /**
    * Collects bottles the character touches and updates the bottle bar.
@@ -400,7 +365,6 @@ class World {
     });
   }
 
-
   /**
    * Sets the volume of a sound and plays it from the start.
    *
@@ -412,7 +376,6 @@ class World {
     SoundManager.sounds[name].volume = volume;
     SoundManager.play(name);
   }
-
 
   /**
    * Checks whether thrown bottles hit an enemy or the end boss.
@@ -445,7 +408,6 @@ class World {
     this.throwableObjects = this.throwableObjects.filter((b) => !b.hasHit);
   }
 
-
   /**
    * Draws one frame: background, status bars, game objects and the pause
    * overlay, then schedules the next frame.
@@ -461,7 +423,6 @@ class World {
     this.animationFrame = requestAnimationFrame(() => this.draw());
   }
 
-
   /**
    * Draws the background layers, shifted by the camera position.
    *
@@ -472,7 +433,6 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
   }
-
 
   /**
    * Draws the fixed status bars (not affected by the camera).
@@ -485,7 +445,6 @@ class World {
     this.addToMap(this.statusBarBottles);
     this.addToMap(this.statusBarEndboss);
   }
-
 
   /**
    * Draws character, end boss, clouds, enemies, collectibles and
@@ -505,7 +464,6 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
   }
 
-
   /**
    * Darkens the canvas and shows the "PAUSE" text in the center.
    *
@@ -523,7 +481,6 @@ class World {
     );
   }
 
-
   /**
    * Draws a list of objects onto the canvas.
    *
@@ -535,7 +492,6 @@ class World {
       this.addToMap(o);
     });
   }
-
 
   /**
    * Draws a single object. Objects facing left are mirrored while drawing.
@@ -556,7 +512,6 @@ class World {
     }
   }
 
-
   /**
    * Mirrors the canvas horizontally and inverts the object's X position,
    * so the image is drawn flipped at the correct place.
@@ -572,7 +527,6 @@ class World {
     movable.x = movable.x * -1;
   }
 
-
   /**
    * Restores the canvas state and the object's X position
    * after {@link World#flipImage}.
@@ -585,7 +539,6 @@ class World {
     this.ctx.restore();
   }
 
-  
   /**
    * Activates the end boss when the character is within 600 px of it.
    *

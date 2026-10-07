@@ -16,7 +16,7 @@ class Character extends MovableObject {
    * does not fall from above when the game starts.
    * @type {number}
    */
-  y = 190;
+  y = 200;
 
   /**
    * Movement speed in pixels per tick (60 ticks per second).
@@ -35,6 +35,22 @@ class Character extends MovableObject {
     "assets/img/2_character_pepe/2_walk/W-24.png",
     "assets/img/2_character_pepe/2_walk/W-25.png",
     "assets/img/2_character_pepe/2_walk/W-26.png",
+  ];
+
+  /** * Image paths of the idle animation.
+   * * @type {string[]}
+   * */
+  IMAGES_IDLE = [
+    "assets/img/2_character_pepe/1_idle/idle/I-1.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-2.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-3.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-4.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-5.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-6.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-7.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-8.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-9.png",
+    "assets/img/2_character_pepe/1_idle/idle/I-10.png",
   ];
 
   /**
@@ -94,9 +110,11 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_IDLE);
     this.applyGravity();
     this.animate();
   }
+
 
   /**
    * Starts the movement loop and the animation loop.
@@ -107,6 +125,7 @@ class Character extends MovableObject {
     setInterval(() => this.updateMovement(), 1000 / 60);
     setInterval(() => this.updateAnimation(), 50);
   }
+
 
   /**
    * Handles input, movement and camera (60 times per second).
@@ -129,6 +148,7 @@ class Character extends MovableObject {
     this.world.camera_x = -this.x + 100;
   }
 
+
   /**
    * Moves the character left or right, limited by the level start and end.
    *
@@ -142,6 +162,7 @@ class Character extends MovableObject {
       this.moveLeft();
     }
   }
+
 
   /**
    * Selects the matching animation (20 times per second).
@@ -163,6 +184,7 @@ class Character extends MovableObject {
     }
   }
 
+
   /**
    * Plays the walking animation with sound, or stops the sound when standing still.
    *
@@ -173,9 +195,11 @@ class Character extends MovableObject {
       this.playAnimation(this.IMAGES_WALKING);
       this.playWalkSound();
     } else {
+      this.playAnimation(this.IMAGES_IDLE);
       this.stopWalkSound();
     }
   }
+
 
   /**
    * Plays the walking sound as a loop if it is not already playing.
@@ -190,6 +214,7 @@ class Character extends MovableObject {
     }
   }
 
+  
   /**
    * Stops the walking sound and resets it to the beginning.
    *
