@@ -48,7 +48,7 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G9.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G10.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
-    "assets/img/4_enemie_boss_chicken/2_alert/G12.png"
+    "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
   /**
@@ -68,7 +68,7 @@ class Endboss extends MovableObject {
   IMAGES_DEAD = [
     "assets/img/4_enemie_boss_chicken/5_dead/G24.png",
     "assets/img/4_enemie_boss_chicken/5_dead/G25.png",
-    "assets/img/4_enemie_boss_chicken/5_dead/G26.png"
+    "assets/img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
   /**
@@ -84,7 +84,6 @@ class Endboss extends MovableObject {
     this.x = 750;
     this.animate();
   }
-
 
   /**
    * Starts two intervals:
@@ -114,7 +113,6 @@ class Endboss extends MovableObject {
     }, 200);
   }
 
-  
   /**
    * Reduces the boss energy by 20 (minimum 0) and stores the time of the hit.
    *
@@ -122,7 +120,12 @@ class Endboss extends MovableObject {
    */
   hitByBottle() {
     this.energy -= 20;
+    if (this.energy === 40) {
+      this.height = 385;
+      this.width = 280;
+    }
     if (this.energy < 0) this.energy = 0;
     this.lastHit = new Date().getTime();
+    this.speed = 1 + (100 - this.energy) / 40;
   }
 }

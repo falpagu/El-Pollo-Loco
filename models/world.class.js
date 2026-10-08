@@ -247,7 +247,6 @@ class World {
       now - (this.lastThrow || 0) > 500
     ) {
       this.lastThrow = now;
-
       SoundManager.sounds.throw.volume = 0.2;
       SoundManager.play("throw");
       let bottle = new ThrowableObject(
@@ -281,19 +280,35 @@ class World {
    * @returns {void}
    */
   checkEnemyCollisions() {
+    let deadEnemies = [];
+    let stomped = false;
+
     this.level.enemies.forEach((enemy, index) => {
       if (!this.character.isColliding(enemy)) return;
+
       if (this.isStomp(enemy)) {
         enemy.die();
         this.playSound("smash", 0.4);
+        deadEnemies.push(enemy);
         this.character.jump();
-        setTimeout(() => {
-          this.level.enemies.splice(index, 1);
-        }, 300);
+        stomped = true;
       } else if (!this.character.isHurt()) {
         this.damageCharacter();
       }
     });
+
+    if (stomped) {
+      this.character.jump();
+    }
+
+    setTimeout(() => {
+      deadEnemies.forEach((enemy) => {
+        let index = this.level.enemies.indexOf(enemy);
+        if (index !== -1) {
+          this.level.enemies.splice(index, 1);
+        }
+      });
+    }, 300);
   }
 
   /**
@@ -319,7 +334,7 @@ class World {
       this.character.isColliding(boss) &&
       !this.character.isHurt()
     ) {
-      this.damageCharacter();
+      this.damageCharacter(boss.energy <= 40 ? 40 : 20);
     }
   }
 
@@ -329,8 +344,8 @@ class World {
    *
    * @returns {void}
    */
-  damageCharacter() {
-    this.character.hit();
+  damageCharacter(damage = 20) {
+    this.character.hit(damage);
     this.playSound("hurt", 0.1);
     this.statusBarHealth.setPercentage(this.character.energy);
   }
@@ -356,7 +371,7 @@ class World {
    */
   checkBottleCollisions() {
     this.level.bottles.forEach((bottle, index) => {
-      if (!this.character.isColliding(bottle)) return;
+      if (!this.character.isColliding(bottle, 10)) return;
       this.playSound("bottle", 0.2);
       this.level.bottles.splice(index, 1);
       this.statusBarBottles.setPercentage(
@@ -400,7 +415,7 @@ class World {
       ) {
         bottle.hasHit = true;
         this.level.endboss.hitByBottle();
-        SoundManager.sounds.bossHit.volume = 0.2;
+        SoundManager.sounds.bossHit.volume = 0.8;
         SoundManager.play("bossHit");
         this.statusBarEndboss.setPercentage(this.level.endboss.energy);
       }

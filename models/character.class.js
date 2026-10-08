@@ -25,6 +25,12 @@ class Character extends MovableObject {
   speed = 10;
 
   /**
+   * Timestamp of the last player activity.
+   * @type {number}
+   */
+  lastActionTime = Date.now();
+
+  /**
    * Image paths of the walking animation.
    * @type {string[]}
    */
@@ -51,6 +57,19 @@ class Character extends MovableObject {
     "assets/img/2_character_pepe/1_idle/idle/I-8.png",
     "assets/img/2_character_pepe/1_idle/idle/I-9.png",
     "assets/img/2_character_pepe/1_idle/idle/I-10.png",
+  ];
+
+  IMAGES_SLEEP = [
+    "assets/img/2_character_pepe/1_idle/long_idle/I-11.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-12.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-13.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-14.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-15.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-16.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-17.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-18.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-19.png",
+    "assets/img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
   /**
@@ -111,10 +130,29 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
+    this.loadImages(this.IMAGES_SLEEP);
     this.applyGravity();
     this.animate();
+    this.lastActionTime = Date.now();
   }
 
+  /**
+   * Resets the sleep timer on input or damage.
+   * Restarts the sleep animation from the first frame after waking up.
+   *
+   * @returns {void}
+   */
+  checkActivity() {
+    const kb = this.world.keyboard;
+    if (kb.RIGHT || kb.LEFT || kb.SPACE || kb.D || this.isHurt()) {
+      if (this.isSleeping()) this.currentImage = 0;
+      this.lastActionTime = Date.now();
+    }
+  }
+
+  isSleeping() {
+    return Date.now() - this.lastActionTime > 5000;
+  }
 
   /**
    * Starts the movement loop and the animation loop.
@@ -125,7 +163,6 @@ class Character extends MovableObject {
     setInterval(() => this.updateMovement(), 1000 / 60);
     setInterval(() => this.updateAnimation(), 50);
   }
-
 
   /**
    * Handles input, movement and camera (60 times per second).
@@ -142,12 +179,12 @@ class Character extends MovableObject {
       return;
     }
     this.handleWalking();
+    this.checkActivity();
     if (this.world.keyboard.SPACE && !this.isAboveGround()) {
       this.jump();
     }
     this.world.camera_x = -this.x + 100;
   }
-
 
   /**
    * Moves the character left or right, limited by the level start and end.
@@ -163,7 +200,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Selects the matching animation (20 times per second).
    * Priority: dead, hurt, in the air, walking, standing.
@@ -174,16 +210,18 @@ class Character extends MovableObject {
     if (this.isGamePaused()) return;
     if (!this.world) return;
     if (this.isDead()) {
+      this.stopSleepSound();
       this.playDeadAnimation(this.IMAGES_DEAD);
     } else if (this.isHurt()) {
+      this.stopSleepSound();
       this.playAnimation(this.IMAGES_HURT);
     } else if (this.isAboveGround()) {
+      this.stopSleepSound();
       this.playAnimation(this.IMAGES_JUMPING);
     } else {
       this.animateGround();
     }
   }
-
 
   /**
    * Plays the walking animation with sound, or stops the sound when standing still.
@@ -194,12 +232,17 @@ class Character extends MovableObject {
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
       this.playWalkSound();
+      this.stopSleepSound();
+    } else if (this.isSleeping()) {
+      this.playAnimation(this.IMAGES_SLEEP);
+      this.playSleepSound();
+      this.stopWalkSound();
     } else {
       this.playAnimation(this.IMAGES_IDLE);
       this.stopWalkSound();
+      this.stopSleepSound();
     }
   }
-
 
   /**
    * Plays the walking sound as a loop if it is not already playing.
@@ -214,7 +257,30 @@ class Character extends MovableObject {
     }
   }
 
-  
+  /**
+   * Plays the sleep sound as a loop if it is not already playing.
+   *
+   * @returns {void}
+   */
+  playSleepSound() {
+    const sound = SoundManager.sounds.sleep;
+    if (sound.paused) {
+      sound.loop = true;
+      sound.play();
+    }
+  }
+
+  /**
+   * Stops the sleep sound and resets it to the beginning.
+   *
+   * @returns {void}
+   */
+  stopSleepSound() {
+    const sound = SoundManager.sounds.sleep;
+    sound.pause();
+    sound.currentTime = 0;
+  }
+
   /**
    * Stops the walking sound and resets it to the beginning.
    *

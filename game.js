@@ -24,6 +24,7 @@ let keyboard = new Keyboard();
  * @returns {void}
  */
 function startGame() {
+  document.getElementById("touchControls").classList.add("visible");
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("fullscreenBtn").style.display = "flex";
   document.getElementById("muteBtn").style.display = "block";
@@ -103,6 +104,7 @@ function backToHome() {
   document.getElementById("startScreen").style.display = "flex";
   document.getElementById("fullscreenBtn").style.display = "none";
   document.getElementById("muteBtn").style.display = "none";
+  document.getElementById("touchControls").classList.remove("visible");
 }
 
 /**
@@ -268,5 +270,8 @@ document.querySelectorAll(".touch_controls button").forEach((btn) => {
   btn.addEventListener("touchend", (e) => {
     e.preventDefault();
     keyboard[key] = false;
+    btn.addEventListener("touchstart", press);
+    btn.addEventListener("touchend", release);
+    btn.addEventListener("touchcancel", release);
   });
 });

@@ -96,24 +96,31 @@ isGamePaused() {
    * @param {MovableObject|DrawableObject} movable - The other object.
    * @returns {boolean} True if the two rectangles overlap.
    */
-  isColliding(movable) {
-    return (
-      this.x + this.width > movable.x &&
-      this.x < movable.x + movable.width &&
-      this.y + this.height > movable.y &&
-      this.y < movable.y + movable.height
-    );
-  }
+  // isColliding(movable) {
+  //   return (
+  //     this.x + this.width > movable.x &&
+  //     this.x < movable.x + movable.width &&
+  //     this.y + this.height > movable.y &&
+  //     this.y < movable.y + movable.height
+  //   );
+  // }
 
-
+isColliding(mo, offset = 0) {
+  return (
+    this.x + this.width - offset > mo.x &&
+    this.y + this.height - offset > mo.y &&
+    this.x + offset < mo.x + mo.width &&
+    this.y + offset < mo.y + mo.height
+  );
+}
   /**
    * Reduces energy by 20 (minimum 0). The hit time is stored only
    * if the object is still alive afterwards.
    *
    * @returns {void}
    */
-  hit() {
-    this.energy -= 20;
+  hit(damage = 20) {
+    this.energy -= damage;
     if (this.energy < 0) {
       this.energy = 0;
     } else {

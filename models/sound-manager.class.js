@@ -20,6 +20,7 @@ class SoundManager {
     throw: new Audio("assets/audio/throw.mp3"),
     win: new Audio("assets/audio/win.mp3"),
     lose: new Audio("assets/audio/lose.mp3"),
+    sleep: new Audio("assets/audio/snore.mp3")
   };
 
   /**
