@@ -1,10 +1,13 @@
 /**
  * End boss of the level. Stays idle until the character gets close,
  * then walks to the left. Can only be damaged by thrown bottles.
+ * The less energy it has, the faster it moves. At 40% energy or less
+ * it is enraged: bigger, faster and surrounded by a red glow.
  *
  * @extends MovableObject
  */
 class Endboss extends MovableObject {
+
   /**
    * Height of the boss in pixels.
    * @type {number}
@@ -23,13 +26,14 @@ class Endboss extends MovableObject {
    */
   y = 50;
 
-  /**
+ /**
    * Movement speed in pixels per tick (60 ticks per second).
+   * Increases with every bottle hit.
    * @type {number}
    */
   speed = 1;
 
-  /**
+   /**
    * Whether the boss is active (walking). Set to true by
    * {@link World#checkEndbossActivation} when the character gets close.
    * @type {boolean}
@@ -85,8 +89,9 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
+
   /**
-   * Starts two intervals:
+   * Starts two intervals. Both do nothing while the game is paused:
    * 1. Movement to the left (60 times per second), only while the boss
    *    is active, alive and not hurt.
    * 2. Animation (every 200 ms). Priority: dead, hurt, walking.
@@ -113,19 +118,48 @@ class Endboss extends MovableObject {
     }, 200);
   }
 
-  /**
-   * Reduces the boss energy by 20 (minimum 0) and stores the time of the hit.
+
+   /**
+   * Reduces the boss energy by 20 (minimum 0), stores the time of the hit
+   * and increases the speed. At 40% energy the boss grows once
+   * and its Y position is adjusted so it stays on the ground.
    *
    * @returns {void}
    */
   hitByBottle() {
     this.energy -= 20;
-    if (this.energy === 40) {
-      this.height = 385;
-      this.width = 280;
-    }
     if (this.energy < 0) this.energy = 0;
     this.lastHit = new Date().getTime();
     this.speed = 1 + (100 - this.energy) / 40;
+    if (this.energy === 40) {
+      this.height = 385;
+      this.width = 280;
+      this.y = 65;
+    }
   }
+
+
+ /**
+ * Whether the boss is in rage mode (40% energy or less, still alive).
+ *
+ * @returns {boolean} True if the boss is enraged.
+ */
+isEnraged() {
+  return this.energy <= 40 && !this.isDead();
+}
+
+/**
+ * Draws the boss. In rage mode a red glow is added around it.
+ *
+ * @param {CanvasRenderingContext2D} ctx - 2D drawing context of the canvas.
+ * @returns {void}
+ */
+draw(ctx) {
+  if(!this.isEnraged()) return super.draw(ctx);
+  ctx.save();
+  ctx.shadowColor = "red";
+  ctx.shadowBlur = 35;
+  super.draw(ctx);
+  ctx.restore();
+}
 }

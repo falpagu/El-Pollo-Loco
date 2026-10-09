@@ -1,127 +1,130 @@
 @font-face {
-    font-family: "Rye";
-    src: url("./assets/fonts/Rye-Regular.ttf") format("truetype");
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Rye";
+  src: url("./assets/fonts/Rye-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: "Rye";
-    src: url("./assets/fonts/Rye-Regular.ttf") format("truetype");
-    font-weight: 700;
-    font-style: normal;
+  font-family: "Rye";
+  src: url("./assets/fonts/Rye-Regular.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
 }
 
 body {
-    background-image: url(./assets/img/desert_03.jpg);
-    background-size: cover;
-    min-height: 100vh;
-    font-family: "rye", Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    color: rgb(44, 44, 40);
+  background-image: url(./assets/img/desert_03.jpg);
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "rye", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: rgb(44, 44, 40);
+  overflow: hidden;
 }
 
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
 }
 
 h1 {
-    font-size: 4rem;
-    letter-spacing: 3px;
-    text-shadow: 3px 3px 7px rgba(0, 0, 0, 0.7);
-    margin-top:16px;
+  font-size: 4rem;
+  letter-spacing: 3px;
+  text-shadow: 3px 3px 7px rgba(0, 0, 0, 0.7);
+  margin-top: 16px;
 }
 
 canvas {
-    background-color: #000;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background-color: #000;
+  background-color: #000;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #000;
 }
 
 .game_container {
-    position: relative;
-    width: 100%;
-    max-width: 720px;
-    aspect-ratio: 3 / 2;
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 3 / 2;
 }
 
 .start_screen {
-    position:absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000;
 }
 
 .start_image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
 }
 
 .play_btn {
-    z-index: 1;
-    cursor: pointer;
-    background: none;
-    border: none;
+  z-index: 1;
+  cursor: pointer;
+  background: none;
+  border: none;
 }
 
 .keys_container {
-    margin-top: 16px;
-    margin-bottom: 24px;
-    display: flex;
-    color: rgb(223, 223, 217);
-    gap: 16px;
-    align-items: center;
-    font-size: 1.2rem;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  color: rgb(223, 223, 217);
+  gap: 16px;
+  align-items: center;
+  font-size: 1.2rem;
 }
 
 .arrows {
-    display: flex;
-    gap: 16px;
+  display: flex;
+  gap: 16px;
 }
 
 .arrows svg {
-    width: 32px;
-    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
+  width: 32px;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
 }
 
 .keys {
-    display: flex;
-    gap: 4px;
-    align-items: center;
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 
 .keys_container span {
-    font-family: "rye";
-    font-size:1rem;
-    text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.7);
+  font-family: "rye";
+  font-size: 1rem;
+  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 .space_key {
-    display: flex;
-    gap: 16px;
+  display: flex;
+  gap: 16px;
 }
 
 .space_key svg {
-    width: 32px;    
-   } 
+  width: 32px;
+}
 
 .D {
-    height: 24px;
-    border-radius: 8px;
+  height: 24px;
+  border-radius: 8px;
 }
 
 #fullscreenBtn {
@@ -137,15 +140,15 @@ canvas {
 }
 
 #fullscreenBtn svg {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 #muteBtn {
   display: none;
   background: none;
   border: none;
-  cursor: pointer; 
+  cursor: pointer;
   font-size: 24px;
   line-height: 1;
   padding: 0;
@@ -211,53 +214,58 @@ canvas {
 /* ------FOOTER------- */
 
 footer {
-     color: rgb(223, 223, 217);
-     display: flex;
-     align-items: center;
-     gap: 16px;
-     margin-top: auto;
-     font-size: 1.1rem;
-     padding: 16px 0;
+  display: flex;
+  min-height: 80px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 1.1rem;
+  padding: 16px 0;
+  color: rgb(223, 223, 217);
 }
 
-footer a, p {
-    cursor: pointer;
-    text-decoration: none;
-    color: rgb(223, 223, 217);
-    text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.7);
+footer a,
+p {
+  cursor: pointer;
+  text-decoration: none;
+  color: rgb(223, 223, 217);
+  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 footer a:hover {
-    color: #77583c;
+  color: #77583c;
 }
 
 /* MOBILE */
 
 @media (max-width: 720px) {
-  h1 { 
-    font-size: 2rem; 
-}
-  .keys_container, footer{ 
-    font-size: 1rem;  
-    gap: 5px;  
-}
+  h1 {
+    font-size: 2rem;
+  }
+  .keys_container,
+  footer {
+    font-size: 1rem;
+    gap: 5px;
+  }
 }
 
-@media(max-width: 600px) {
-  .keys_container, footer {
+@media (max-width: 600px) {
+  .keys_container,
+  footer {
     flex-direction: column;
     gap: 5px;
-}
+  }
 }
 
-
-@media(max-width: 400px) {
+@media (max-width: 400px) {
   footer {
     display: none;
-}
+  }
 }
 
-.touch_controls { display: none; }
+.touch_controls {
+  display: none;
+}
 
 @media (pointer: coarse) {
   .touch_controls {
@@ -267,14 +275,14 @@ footer a:hover {
     left: calc(16px + env(safe-area-inset-left, 0px));
     right: calc(16px + env(safe-area-inset-right, 0px));
     z-index: 3;
-    pointer-events: none;  
+    pointer-events: none;
   }
 
   .touch_controls.visible {
     display: flex;
   }
 
-   .touch_group {
+  .touch_group {
     display: flex;
     gap: 14px;
   }
@@ -285,7 +293,7 @@ footer a:hover {
     height: 48px;
     border-radius: 50%;
     border: 4px solid #77583c;
-    background: #F4502A;
+    background: #f4502a;
     color: #fff;
     font-size: 30px;
     touch-action: none;
@@ -294,7 +302,9 @@ footer a:hover {
   }
 }
 
-.rotate_hint { display: none; }
+.rotate_hint {
+  display: none;
+}
 
 @media (max-width: 720px) and (orientation: portrait) {
   .rotate_hint {
@@ -310,7 +320,9 @@ footer a:hover {
     text-align: center;
     font-size: 1.5rem;
   }
-  .rotate_hint span { font-size: 4rem; }
+  .rotate_hint span {
+    font-size: 4rem;
+  }
 }
 
 @media (orientation: landscape) and (max-height: 500px) {

@@ -69,6 +69,7 @@ class World {
    */
   animationFrame;
 
+
   /**
    * Creates the world, the four status bars, and starts drawing
    * and the game loops.
@@ -89,6 +90,7 @@ class World {
     this.run();
   }
 
+
   /**
    * Switches between paused and running. Pauses or resumes all sounds.
    * Does nothing after the game is over.
@@ -105,6 +107,7 @@ class World {
     }
   }
 
+
   /**
    * Gives the character a reference to this world.
    *
@@ -113,6 +116,7 @@ class World {
   setWorld() {
     this.character.world = this;
   }
+
 
   /**
    * Starts the game loops. All of them skip their work while paused.
@@ -142,6 +146,7 @@ class World {
     }, 50);
   }
 
+
   /**
    * Ends the game once, 1.5 seconds after the character or the end boss
    * has died. Shows the lose screen or the win screen.
@@ -158,6 +163,7 @@ class World {
       setTimeout(() => endGame(true), 1500);
     }
   }
+
 
   /**
    * Spawns a new chicken ahead of the character, up to 8 enemies,
@@ -176,6 +182,7 @@ class World {
       this.level.enemies.push(chicken);
     }
   }
+
 
   /**
    * Spawns a coin at a random position ahead of the character,
@@ -196,6 +203,7 @@ class World {
     }
   }
 
+
   /**
    * Spawns a bottle on the ground ahead of the character,
    * up to 8 bottles.
@@ -212,6 +220,7 @@ class World {
       this.level.bottles.push(new Bottles(x, 370));
     }
   }
+
 
   /**
    * Removes enemies, coins and bottles that are more than 800 px
@@ -231,12 +240,14 @@ class World {
     );
   }
 
+
   /**
-   * Throws a bottle when D is pressed, the bottle bar is not empty and
-   * the 500 ms cooldown has passed. Does nothing while the character is dead.
-   *
-   * @returns {void}
-   */
+  * Throws a bottle in the character's facing direction when D is pressed,
+  * the bottle bar is not empty and the 500 ms cooldown has passed.
+  * Does nothing while the character is dead.
+  *
+  * @returns {void}
+  */
   checkThrowObjects() {
     if (this.character.isDead()) return;
 
@@ -249,16 +260,16 @@ class World {
       this.lastThrow = now;
       SoundManager.sounds.throw.volume = 0.2;
       SoundManager.play("throw");
-      let bottle = new ThrowableObject(
-        this.character.x + 100,
-        this.character.y + 100,
-      );
+      let toLeft = this.character.otherDirection;
+      let startX = toLeft ? this.character.x - 20 : this.character.x + 100;
+      let bottle = new ThrowableObject(startX, this.character.y + 100, toLeft);
       this.throwableObjects.push(bottle);
       this.statusBarBottles.setPercentage(
         this.statusBarBottles.percentage - 20,
       );
     }
   }
+
 
   /**
    * Checks all collisions of the character with enemies, the end boss,
@@ -274,42 +285,43 @@ class World {
     this.checkBottleCollisions();
   }
 
+
   /**
    * Handles contact with normal enemies: stomp from above or damage.
    *
    * @returns {void}
    */
+
   checkEnemyCollisions() {
-    let deadEnemies = [];
-    let stomped = false;
+    const hits = this.level.enemies.filter(
+      (e) => !e.isDead() && this.character.isColliding(e),
+    );
+    const stomped = hits.filter((e) => this.isStomp(e));
 
-    this.level.enemies.forEach((enemy, index) => {
-      if (!this.character.isColliding(enemy)) return;
-
-      if (this.isStomp(enemy)) {
-        enemy.die();
-        this.playSound("smash", 0.4);
-        deadEnemies.push(enemy);
-        this.character.jump();
-        stomped = true;
-      } else if (!this.character.isHurt()) {
-        this.damageCharacter();
-      }
-    });
-
-    if (stomped) {
-      this.character.jump();
+    stomped.forEach((e) => this.killEnemy(e));
+    if (stomped.length > 0) {
+      this.character.speedY = 30;
+    } else if (hits.length > 0 && !this.character.isHurt()) {
+      this.damageCharacter();
     }
+  }
 
+
+  /**
+ * Kills an enemy, plays the smash sound and removes it from the level
+ * after 300 ms, so the dead image stays visible for a moment.
+ *
+ * @param {Chicken} enemy - The enemy to kill.
+ * @returns {void}
+ */
+  killEnemy(enemy) {
+    enemy.die();
+    this.playSound("smash", 0.4);
     setTimeout(() => {
-      deadEnemies.forEach((enemy) => {
-        let index = this.level.enemies.indexOf(enemy);
-        if (index !== -1) {
-          this.level.enemies.splice(index, 1);
-        }
-      });
+      this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
     }, 300);
   }
+
 
   /**
    * Checks whether the character lands on top of the given enemy.
@@ -322,11 +334,13 @@ class World {
     return this.character.speedY < 0 && characterFeet < enemy.y + 40;
   }
 
-  /**
-   * Damages the character when touching the living end boss.
-   *
-   * @returns {void}
-   */
+
+ /**
+ * Damages the character when touching the living end boss.
+ * The damage is 20, or 40 once the boss has 40% energy or less.
+ *
+ * @returns {void}
+ */
   checkBossCollision() {
     let boss = this.level.endboss;
     if (
@@ -338,17 +352,20 @@ class World {
     }
   }
 
-  /**
-   * Reduces the character's energy, plays the hurt sound and
-   * updates the health bar.
-   *
-   * @returns {void}
-   */
+
+ /**
+ * Reduces the character's energy, plays the hurt sound and
+ * updates the health bar.
+ *
+ * @param {number} [damage=20] - Energy to subtract.
+ * @returns {void}
+ */
   damageCharacter(damage = 20) {
     this.character.hit(damage);
     this.playSound("hurt", 0.1);
     this.statusBarHealth.setPercentage(this.character.energy);
   }
+
 
   /**
    * Collects coins the character touches and updates the coin bar.
@@ -360,9 +377,10 @@ class World {
       if (!this.character.isColliding(coin)) return;
       this.playSound("coin", 0.2);
       this.level.coins.splice(index, 1);
-      this.statusBarCoins.setPercentage(this.statusBarCoins.percentage + 20);
+      this.statusBarCoins.setPercentage(Math.min(100, this.statusBarCoins.percentage + 20));
     });
   }
+
 
   /**
    * Collects bottles the character touches and updates the bottle bar.
@@ -375,10 +393,12 @@ class World {
       this.playSound("bottle", 0.2);
       this.level.bottles.splice(index, 1);
       this.statusBarBottles.setPercentage(
-        this.statusBarBottles.percentage + 20,
+         Math.min(100, this.statusBarBottles.percentage + 20),
+
       );
     });
   }
+
 
   /**
    * Sets the volume of a sound and plays it from the start.
@@ -392,23 +412,23 @@ class World {
     SoundManager.play(name);
   }
 
-  /**
-   * Checks whether thrown bottles hit an enemy or the end boss.
-   * A hit enemy is removed, the boss takes damage. Bottles that hit
-   * something are removed from {@link World#throwableObjects}.
-   *
-   * @returns {void}
-   */
+
+ /**
+ * Checks whether thrown bottles hit a living enemy or the end boss.
+ * A hit enemy is killed, the boss takes damage and its status bar is
+ * updated. Bottles that hit something are removed from
+ * {@link World#throwableObjects}.
+ *
+ * @returns {void}
+ */
   checkBottleHits() {
     this.throwableObjects.forEach((bottle) => {
       if (bottle.hasHit) return;
 
-      let enemy = this.level.enemies.find((e) => bottle.isColliding(e));
+      let enemy = this.level.enemies.find((e) => !e.isDead() && bottle.isColliding(e));
       if (enemy) {
         bottle.hasHit = true;
-        this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
-        SoundManager.sounds.smash.volume = 0.2;
-        SoundManager.play("smash");
+        this.killEnemy(enemy);
       } else if (
         !this.level.endboss.isDead() &&
         bottle.isColliding(this.level.endboss)
@@ -422,6 +442,7 @@ class World {
     });
     this.throwableObjects = this.throwableObjects.filter((b) => !b.hasHit);
   }
+
 
   /**
    * Draws one frame: background, status bars, game objects and the pause
@@ -438,6 +459,7 @@ class World {
     this.animationFrame = requestAnimationFrame(() => this.draw());
   }
 
+
   /**
    * Draws the background layers, shifted by the camera position.
    *
@@ -448,6 +470,7 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
   }
+
 
   /**
    * Draws the fixed status bars (not affected by the camera).
@@ -460,6 +483,7 @@ class World {
     this.addToMap(this.statusBarBottles);
     this.addToMap(this.statusBarEndboss);
   }
+
 
   /**
    * Draws character, end boss, clouds, enemies, collectibles and
@@ -479,6 +503,7 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
   }
 
+
   /**
    * Darkens the canvas and shows the "PAUSE" text in the center.
    *
@@ -496,6 +521,7 @@ class World {
     );
   }
 
+
   /**
    * Draws a list of objects onto the canvas.
    *
@@ -507,6 +533,7 @@ class World {
       this.addToMap(o);
     });
   }
+
 
   /**
    * Draws a single object. Objects facing left are mirrored while drawing.
@@ -527,6 +554,7 @@ class World {
     }
   }
 
+
   /**
    * Mirrors the canvas horizontally and inverts the object's X position,
    * so the image is drawn flipped at the correct place.
@@ -542,6 +570,7 @@ class World {
     movable.x = movable.x * -1;
   }
 
+
   /**
    * Restores the canvas state and the object's X position
    * after {@link World#flipImage}.
@@ -553,6 +582,7 @@ class World {
     movable.x = movable.x * -1;
     this.ctx.restore();
   }
+
 
   /**
    * Activates the end boss when the character is within 600 px of it.

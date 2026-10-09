@@ -5,6 +5,7 @@
  * @extends MovableObject
  */
 class Chicken extends MovableObject {
+
   /**
    * Height of the chicken in pixels.
    * @type {number}
@@ -22,11 +23,6 @@ class Chicken extends MovableObject {
    * @type {number}
    */
   y = 380;
-
-  /** * Image paths of the walking animation. 
-  * @type {string[]} 
-  */
-  isDead = false;
 
   /**
    * Image paths of the walking animation.
@@ -47,8 +43,9 @@ class Chicken extends MovableObject {
   ];
 
   /**
-  * Creates a chicken, loads its images, places it at a random X position 
-  * (200 to 700), assigns a random speed (0.15 to 0.5) and starts the animation. 
+  * Creates a chicken, loads its images, places it at a random X position
+  * (200 to 700), assigns a random speed (0.15 to 0.5) and starts the
+  * animation.
   */
   constructor() {
     super();
@@ -58,36 +55,41 @@ class Chicken extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 200 + Math.random() * 500;
-    this.animate();
     this.speed = 0.15 + Math.random() * 0.35;
+    this.animate();
   }
 
 
-  /** 
-  * Changes the chicken image to its dead image. 
-  * @returns {void} 
-  */
+   /**
+   * Kills the chicken: sets its energy to 0 and shows the dead image.
+   * A dead chicken stops moving and cannot hurt the character.
+   *
+   * @returns {void}
+   */
   die() {
-    this.img = this.imageCache[ "assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
+    this.energy = 0;
+    this.img = this.imageCache[ this.IMAGES_DEAD[0]];
   }
 
 
-  /** * Starts two intervals: 
-  * 1. Movement to the left (60 times per second). 
-  * 2. Walking animation and chicken sound (every 200 ms).
-  * @returns {void} 
-  */
+  
+  /**
+   * Starts two intervals. Both do nothing while the game is paused
+   * or the chicken is dead:
+   * 1. Movement to the left (60 times per second).
+   * 2. Walking animation and chicken sound (every 200 ms).
+   *
+   * @returns {void}
+   */
   animate() {
     setInterval(() => {
-      if (this.isGamePaused()) return;
-      if(this.isDead) return;
+      if (this.isGamePaused() || this.isDead()) return;
       this.moveLeft();
       this.otherDirection = false;
     }, 1000 / 60);
 
     setInterval(() => {
-      if (this.isGamePaused()) return;
-      if(this.isDead) return;
+      if (this.isGamePaused() || this.isDead()) return;
       this.playAnimation(this.IMAGES_WALKING);
       SoundManager.sounds.chicken.play();
       SoundManager.sounds.chicken.volume = 0.01;

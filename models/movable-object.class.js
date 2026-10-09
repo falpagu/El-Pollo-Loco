@@ -43,33 +43,51 @@ class MovableObject extends DrawableObject {
   lastHit = 0;
 
   /**
+   * Y position of the ground. Used for landing and for the above-ground check.
+   * @type {number}
+   */
+  groundY = 180;
+
+  /**
    * Index of the next frame of the death animation.
    * @type {number}
    */
   deadFrame = 0;
 
+  /**
+   * Whether the object is currently in a jump. Prevents jumping again
+   * in mid-air. Reset when the object lands.
+   * @type {boolean}
+   */
+  isJumping = false;
 
-    /**
- * Checks whether the game is currently paused.
- *
- * @returns {boolean} True if the world is paused.
- */
-isGamePaused() {
-  return typeof world !== "undefined" && !!world && world.isPaused;
-}
+  /**
+   * Checks whether the game is currently paused.
+   *
+   * @returns {boolean} True if the world is paused.
+   */
+  isGamePaused() {
+    return typeof world !== "undefined" && !!world && world.isPaused;
+  }
 
 
-/**
- * Starts the gravity loop (25 times per second). Skipped while paused.
- *
- * @returns {void}
- */
+  /**
+   * Starts the gravity loop (25 times per second). The object falls
+   * while it is above the ground or still moving upwards, and is placed
+   * on the ground when it lands. Skipped while paused.
+   *
+   * @returns {void}
+   */
   applyGravity() {
     setInterval(() => {
-      if(this.isGamePaused()) return;
+      if (this.isGamePaused()) return;
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.accelartion;
+      } else {
+        this.isJumping = false;
+        this.speedY = 0;
+        this.y = this.groundY;
       }
     }, 1000 / 25);
   }
@@ -85,38 +103,35 @@ isGamePaused() {
     if (this instanceof ThrowableObject) {
       return true;
     } else {
-      return this.y < 180;
+      return this.y < this.groundY;
     }
   }
 
 
   /**
    * Checks whether this object overlaps another one (rectangle collision).
+   * A positive offset shrinks this object's hitbox on all sides, so
+   * only a clearer overlap counts as a collision.
    *
-   * @param {MovableObject|DrawableObject} movable - The other object.
+   * @param {MovableObject|DrawableObject} mo - The other object.
+   * @param {number} [offset=0] - Pixels to shrink this object's hitbox by.
    * @returns {boolean} True if the two rectangles overlap.
    */
-  // isColliding(movable) {
-  //   return (
-  //     this.x + this.width > movable.x &&
-  //     this.x < movable.x + movable.width &&
-  //     this.y + this.height > movable.y &&
-  //     this.y < movable.y + movable.height
-  //   );
-  // }
+  isColliding(mo, offset = 0) {
+    return (
+      this.x + this.width - offset > mo.x &&
+      this.y + this.height - offset > mo.y &&
+      this.x + offset < mo.x + mo.width &&
+      this.y + offset < mo.y + mo.height
+    );
+  }
 
-isColliding(mo, offset = 0) {
-  return (
-    this.x + this.width - offset > mo.x &&
-    this.y + this.height - offset > mo.y &&
-    this.x + offset < mo.x + mo.width &&
-    this.y + offset < mo.y + mo.height
-  );
-}
+
   /**
-   * Reduces energy by 20 (minimum 0). The hit time is stored only
-   * if the object is still alive afterwards.
+   * Reduces energy by the given damage (minimum 0). The hit time is stored
+   * only if the object is still alive afterwards.
    *
+   * @param {number} [damage=20] - Energy to subtract.
    * @returns {void}
    */
   hit(damage = 20) {
@@ -149,7 +164,6 @@ isColliding(mo, offset = 0) {
   isDead() {
     return this.energy == 0;
   }
-
 
   /**
    * Plays an animation in a loop by cycling through the given images.
@@ -191,11 +205,15 @@ isColliding(mo, offset = 0) {
 
   /**
    * Makes the object jump by setting an upward speed.
+   * Does nothing if the object is already jumping.
    *
    * @returns {void}
    */
   jump() {
+    if (this.isJumping) return;
+
     this.speedY = 30;
+    this.isJumping = true;
   }
 
   

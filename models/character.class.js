@@ -5,6 +5,7 @@
  * @extends MovableObject
  */
 class Character extends MovableObject {
+  
   /**
    * Height of the character in pixels.
    * @type {number}
@@ -43,9 +44,10 @@ class Character extends MovableObject {
     "assets/img/2_character_pepe/2_walk/W-26.png",
   ];
 
-  /** * Image paths of the idle animation.
-   * * @type {string[]}
-   * */
+  /** 
+   * Image paths of the idle animation.
+   * @type {string[]}
+   */
   IMAGES_IDLE = [
     "assets/img/2_character_pepe/1_idle/idle/I-1.png",
     "assets/img/2_character_pepe/1_idle/idle/I-2.png",
@@ -59,6 +61,11 @@ class Character extends MovableObject {
     "assets/img/2_character_pepe/1_idle/idle/I-10.png",
   ];
 
+  /**
+  * Image paths of the long idle (sleeping) animation. Played after
+  * 5 seconds without player activity.
+  * @type {string[]}
+  */
   IMAGES_SLEEP = [
     "assets/img/2_character_pepe/1_idle/long_idle/I-11.png",
     "assets/img/2_character_pepe/1_idle/long_idle/I-12.png",
@@ -133,8 +140,8 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_SLEEP);
     this.applyGravity();
     this.animate();
-    this.lastActionTime = Date.now();
   }
+
 
   /**
    * Resets the sleep timer on input or damage.
@@ -150,9 +157,16 @@ class Character extends MovableObject {
     }
   }
 
+
+  /**
+  * Checks whether the character has been inactive for more than 5 seconds.
+  *
+  * @returns {boolean} True if the character should play the sleep animation.
+  */
   isSleeping() {
     return Date.now() - this.lastActionTime > 5000;
   }
+
 
   /**
    * Starts the movement loop and the animation loop.
@@ -164,13 +178,17 @@ class Character extends MovableObject {
     setInterval(() => this.updateAnimation(), 50);
   }
 
-  /**
-   * Handles input, movement and camera (60 times per second).
-   * Does nothing as long as no world is set; when dead, only the
-   * walking sound is stopped.
-   *
-   * @returns {void}
-   */
+
+/**
+ * Handles input, movement and camera (60 times per second).
+ * Does nothing while the game is paused or no world is set.
+ * When dead, only the walking sound is stopped.
+ *
+ * The space key is reset after a jump, so holding it down
+ * does not repeat the jump.
+ *
+ * @returns {void}
+ */
   updateMovement() {
     if (this.isGamePaused()) return;
     if (!this.world) return;
@@ -182,9 +200,11 @@ class Character extends MovableObject {
     this.checkActivity();
     if (this.world.keyboard.SPACE && !this.isAboveGround()) {
       this.jump();
+      this.world.keyboard.SPACE = false;
     }
     this.world.camera_x = -this.x + 100;
   }
+
 
   /**
    * Moves the character left or right, limited by the level start and end.
@@ -200,12 +220,13 @@ class Character extends MovableObject {
     }
   }
 
-  /**
-   * Selects the matching animation (20 times per second).
-   * Priority: dead, hurt, in the air, walking, standing.
-   *
-   * @returns {void}
-   */
+
+ /**
+ * Selects the matching animation (20 times per second).
+ * Priority: dead, hurt, in the air, walking, sleeping, idle.
+ *
+ * @returns {void}
+ */
   updateAnimation() {
     if (this.isGamePaused()) return;
     if (!this.world) return;
@@ -223,11 +244,12 @@ class Character extends MovableObject {
     }
   }
 
-  /**
-   * Plays the walking animation with sound, or stops the sound when standing still.
-   *
-   * @returns {void}
-   */
+
+/**
+ * Plays the walking, sleeping or idle animation with the matching sounds.
+ *
+ * @returns {void}
+ */
   animateGround() {
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
@@ -244,6 +266,7 @@ class Character extends MovableObject {
     }
   }
 
+
   /**
    * Plays the walking sound as a loop if it is not already playing.
    *
@@ -256,6 +279,7 @@ class Character extends MovableObject {
       SoundManager.sounds.walk.play();
     }
   }
+
 
   /**
    * Plays the sleep sound as a loop if it is not already playing.
@@ -270,6 +294,7 @@ class Character extends MovableObject {
     }
   }
 
+  
   /**
    * Stops the sleep sound and resets it to the beginning.
    *
