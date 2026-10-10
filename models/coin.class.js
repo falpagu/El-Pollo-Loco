@@ -6,6 +6,12 @@
  */
 class Coins extends DrawableObject {
   /**
+   * Collision offsets used to adjust the coin's collision box.
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   */
+  offset = { top: 30, bottom: 30, left: 30, right: 30 };
+
+  /**
    * Image paths of the two coin variants that are preloaded.
    * @type {string[]}
    */

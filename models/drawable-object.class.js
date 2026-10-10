@@ -46,6 +46,13 @@ class DrawableObject {
   width = 100;
 
   /**
+   * Transparent border of the image in pixels. The real hitbox is the
+   * image rectangle minus these values.
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   */
+  offset = { top: 0, bottom: 0, left: 0, right: 0 };
+
+  /**
    * Loads a single image and sets it as the current image.
    *
    * @param {string} path - Path to the image file.
@@ -55,7 +62,6 @@ class DrawableObject {
     this.img = new Image();
     this.img.src = path;
   }
-
 
   /**
    * Draws the current image onto the canvas.
@@ -67,25 +73,30 @@ class DrawableObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
-
   /**
-   * Draws a blue debug frame around the hitbox.
-   * Only applies to {@link Character} and {@link Chicken}.
+   * Draws the image frame (blue) and real hitbox (red) for debugging.
    *
-   * @param {CanvasRenderingContext2D} ctx - 2D drawing context of the canvas.
+   * @param {CanvasRenderingContext2D} ctx - 2D drawing context.
    * @returns {void}
    */
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
-    }
+    const o = this.offset;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.strokeStyle = "blue";
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.rect(
+      this.x + o.left,
+      this.y + o.top,
+      this.width - o.left - o.right,
+      this.height - o.top - o.bottom,
+    );
+    ctx.stroke();
   }
 
-  
   /**
    * Preloads multiple images into {@link DrawableObject#imageCache}
    * so they can be used for animations.

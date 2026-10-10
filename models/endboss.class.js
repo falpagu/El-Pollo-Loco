@@ -7,6 +7,11 @@
  * @extends MovableObject
  */
 class Endboss extends MovableObject {
+  /**
+   * Collision offsets used to adjust the endboss's collision box.
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   */
+  offset = { top: 80, bottom: 20, left: 40, right: 20 };
 
   /**
    * Height of the boss in pixels.
@@ -26,14 +31,14 @@ class Endboss extends MovableObject {
    */
   y = 50;
 
- /**
+  /**
    * Movement speed in pixels per tick (60 ticks per second).
    * Increases with every bottle hit.
    * @type {number}
    */
   speed = 1;
 
-   /**
+  /**
    * Whether the boss is active (walking). Set to true by
    * {@link World#checkEndbossActivation} when the character gets close.
    * @type {boolean}
@@ -89,7 +94,6 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
-
   /**
    * Starts two intervals. Both do nothing while the game is paused:
    * 1. Movement to the left (60 times per second), only while the boss
@@ -118,8 +122,7 @@ class Endboss extends MovableObject {
     }, 200);
   }
 
-
-   /**
+  /**
    * Reduces the boss energy by 20 (minimum 0), stores the time of the hit
    * and increases the speed. At 40% energy the boss grows once
    * and its Y position is adjusted so it stays on the ground.
@@ -138,28 +141,27 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Whether the boss is in rage mode (40% energy or less, still alive).
+   *
+   * @returns {boolean} True if the boss is enraged.
+   */
+  isEnraged() {
+    return this.energy <= 40 && !this.isDead();
+  }
 
- /**
- * Whether the boss is in rage mode (40% energy or less, still alive).
- *
- * @returns {boolean} True if the boss is enraged.
- */
-isEnraged() {
-  return this.energy <= 40 && !this.isDead();
-}
-
-/**
- * Draws the boss. In rage mode a red glow is added around it.
- *
- * @param {CanvasRenderingContext2D} ctx - 2D drawing context of the canvas.
- * @returns {void}
- */
-draw(ctx) {
-  if(!this.isEnraged()) return super.draw(ctx);
-  ctx.save();
-  ctx.shadowColor = "red";
-  ctx.shadowBlur = 35;
-  super.draw(ctx);
-  ctx.restore();
-}
+  /**
+   * Draws the boss. In rage mode a red glow is added around it.
+   *
+   * @param {CanvasRenderingContext2D} ctx - 2D drawing context of the canvas.
+   * @returns {void}
+   */
+  draw(ctx) {
+    if (!this.isEnraged()) return super.draw(ctx);
+    ctx.save();
+    ctx.shadowColor = "red";
+    ctx.shadowBlur = 35;
+    super.draw(ctx);
+    ctx.restore();
+  }
 }

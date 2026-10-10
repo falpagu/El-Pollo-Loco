@@ -5,7 +5,6 @@
  * @extends MovableObject
  */
 class Chicken extends MovableObject {
-
   /**
    * Height of the chicken in pixels.
    * @type {number}
@@ -25,6 +24,12 @@ class Chicken extends MovableObject {
   y = 380;
 
   /**
+   * Collision offsets used to adjust the chicken's collision box.
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   */
+  offset = { top: 5, bottom: 5, left: 5, right: 5 };
+
+  /**
    * Image paths of the walking animation.
    * @type {string[]}
    */
@@ -34,33 +39,30 @@ class Chicken extends MovableObject {
     "assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
 
-  /** 
-  * Image paths of the dead chicken. 
-  * @type {string[]} 
-  */
-  IMAGES_DEAD = [
-    "assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"
-  ];
+  /**
+   * Image paths of the dead chicken.
+   * @type {string[]}
+   */
+  IMAGES_DEAD = ["assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
 
   /**
-  * Creates a chicken, loads its images, places it at a random X position
-  * (200 to 700), assigns a random speed (0.15 to 0.5) and starts the
-  * animation.
-  */
-  constructor() {
+   * Creates a chicken, loads its images, assigns its position and random
+   * speed, and starts the animation.
+   * @param {number} [x=200 + Math.random() * 500] - The starting X position.
+   * */
+  constructor(x = 200 + Math.random() * 500) {
     super();
     this.loadImage(
       "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
     );
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 200 + Math.random() * 500;
+    this.x = x;
     this.speed = 0.15 + Math.random() * 0.35;
     this.animate();
   }
 
-
-   /**
+  /**
    * Kills the chicken: sets its energy to 0 and shows the dead image.
    * A dead chicken stops moving and cannot hurt the character.
    *
@@ -68,11 +70,9 @@ class Chicken extends MovableObject {
    */
   die() {
     this.energy = 0;
-    this.img = this.imageCache[ this.IMAGES_DEAD[0]];
+    this.img = this.imageCache[this.IMAGES_DEAD[0]];
   }
 
-
-  
   /**
    * Starts two intervals. Both do nothing while the game is paused
    * or the chicken is dead:

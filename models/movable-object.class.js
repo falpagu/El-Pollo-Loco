@@ -62,6 +62,12 @@ class MovableObject extends DrawableObject {
   isJumping = false;
 
   /**
+   * Timestamp (ms) of the last animation frame change.
+   * @type {number}
+   */
+  lastFrameTime = 0;
+
+  /**
    * Checks whether the game is currently paused.
    *
    * @returns {boolean} True if the world is paused.
@@ -69,7 +75,6 @@ class MovableObject extends DrawableObject {
   isGamePaused() {
     return typeof world !== "undefined" && !!world && world.isPaused;
   }
-
 
   /**
    * Starts the gravity loop (25 times per second). The object falls
@@ -92,7 +97,6 @@ class MovableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
-
   /**
    * Checks whether the object is above the ground.
    * Thrown objects always count as above ground.
@@ -107,25 +111,21 @@ class MovableObject extends DrawableObject {
     }
   }
 
-
   /**
-   * Checks whether this object overlaps another one (rectangle collision).
-   * A positive offset shrinks this object's hitbox on all sides, so
-   * only a clearer overlap counts as a collision.
+   * Checks whether the hitboxes of this object and another one overlap.
+   * The hitbox is the image rectangle minus the transparent offset border.
    *
-   * @param {MovableObject|DrawableObject} mo - The other object.
-   * @param {number} [offset=0] - Pixels to shrink this object's hitbox by.
-   * @returns {boolean} True if the two rectangles overlap.
+   * @param {DrawableObject} mo - The other object.
+   * @returns {boolean} True if the hitboxes overlap.
    */
-  isColliding(mo, offset = 0) {
+  isColliding(mo) {
     return (
-      this.x + this.width - offset > mo.x &&
-      this.y + this.height - offset > mo.y &&
-      this.x + offset < mo.x + mo.width &&
-      this.y + offset < mo.y + mo.height
+      this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
     );
   }
-
 
   /**
    * Reduces energy by the given damage (minimum 0). The hit time is stored
@@ -143,7 +143,6 @@ class MovableObject extends DrawableObject {
     }
   }
 
-
   /**
    * Checks whether the last hit was less than one second ago.
    *
@@ -155,7 +154,6 @@ class MovableObject extends DrawableObject {
     return timepassed < 1;
   }
 
-
   /**
    * Checks whether the object has no energy left.
    *
@@ -166,19 +164,21 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Plays an animation in a loop by cycling through the given images.
-   * Call once per animation tick.
+   * Plays an animation in a loop. The next frame is shown only after
+   * `frameTime` milliseconds have passed since the last frame change.
    *
    * @param {string[]} images - Image paths (must be preloaded via `loadImages`).
+   * @param {number} [frameTime=0] - Minimum time per frame in ms.
    * @returns {void}
    */
-  playAnimation(images) {
+  playAnimation(images, frameTime = 0) {
+    const now = Date.now();
+    if (now - this.lastFrameTime < frameTime) return;
+    this.lastFrameTime = now;
     let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
+    this.img = this.imageCache[images[i]];
     this.currentImage++;
   }
-
 
   /**
    * Moves the object to the right by {@link MovableObject#speed}.
@@ -189,7 +189,6 @@ class MovableObject extends DrawableObject {
     this.x += this.speed;
     this.otherDirection = false;
   }
-
 
   /**
    * Moves the object to the left by {@link MovableObject#speed}
@@ -202,7 +201,6 @@ class MovableObject extends DrawableObject {
     this.otherDirection = true;
   }
 
-
   /**
    * Makes the object jump by setting an upward speed.
    * Does nothing if the object is already jumping.
@@ -211,12 +209,10 @@ class MovableObject extends DrawableObject {
    */
   jump() {
     if (this.isJumping) return;
-
     this.speedY = 30;
     this.isJumping = true;
   }
 
-  
   /**
    * Plays the death animation once and stays on the last frame.
    * Uses the `IMAGES_DEAD` array of the subclass.

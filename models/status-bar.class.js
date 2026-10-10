@@ -31,7 +31,6 @@ class StatusBar extends DrawableObject {
     this.setPercentage(startPercentage);
   }
 
-
   /**
    * Sets the fill level and switches to the matching image.
    *
@@ -44,7 +43,6 @@ class StatusBar extends DrawableObject {
     this.img = this.imageCache[path];
   }
 
-  
   /**
    * Maps the current percentage to an index in the image array.
    * 100 returns 0, 80 returns 1, and so on down to 20 returning 4.

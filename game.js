@@ -130,8 +130,6 @@ window.addEventListener("keydown", (e) => {
 
   if (e.key === " ") {
     keyboard.SPACE = true;
-    SoundManager.sounds.jump.play();
-    SoundManager.sounds.jump.volume = 0.2;
   }
 
   if (e.key.toLowerCase() === "d") {
@@ -263,15 +261,17 @@ window.addEventListener("keydown", (e) => {
  */
 document.querySelectorAll(".touch_controls button").forEach((btn) => {
   const key = btn.dataset.key;
-  btn.addEventListener("touchstart", (e) => {
+  const press = (e) => {
     e.preventDefault();
+    if(world && world.isPaused) return;
     keyboard[key] = true;
-  });
-  btn.addEventListener("touchend", (e) => {
+  };
+  const release = (e) => {
     e.preventDefault();
     keyboard[key] = false;
+  };
     btn.addEventListener("touchstart", press);
     btn.addEventListener("touchend", release);
     btn.addEventListener("touchcancel", release);
   });
-});
+

@@ -31,7 +31,6 @@ class Cloud extends MovableObject {
     this.animate();
   }
 
-  
   /**
    * Moves the cloud one step to the left.
    *

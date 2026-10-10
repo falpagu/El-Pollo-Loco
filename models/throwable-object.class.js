@@ -6,6 +6,11 @@
  * @extends MovableObject
  */
 class ThrowableObject extends MovableObject {
+  /**
+   * Collision offsets used to adjust the bottle's collision box.
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   */
+  offset = { top: 10, bottom: 10, left: 10, right: 10 };
 
   /**
    * Whether the bottle has already hit something and should be removed.
@@ -14,11 +19,10 @@ class ThrowableObject extends MovableObject {
   hasHit = false;
 
   /**
-  * Horizontal throw direction: 1 flies to the right, -1 to the left.
-  * @type {number}
-  */
+   * Horizontal throw direction: 1 flies to the right, -1 to the left.
+   * @type {number}
+   */
   direction = 1;
-
 
   /**
    * Creates a bottle at the given position and throws it immediately.
@@ -39,7 +43,7 @@ class ThrowableObject extends MovableObject {
     this.throw();
   }
 
-   /**
+  /**
    * Launches the bottle: sets an upward speed, starts gravity and moves
    * the bottle 10 pixels per tick (every 25 ms) in the throw direction.
    * Skipped while the game is paused.
@@ -50,7 +54,7 @@ class ThrowableObject extends MovableObject {
     this.speedY = 30;
     this.applyGravity();
     setInterval(() => {
-      if(this.isGamePaused()) return;
+      if (this.isGamePaused()) return;
       this.x += 10 * this.direction;
     }, 25);
   }

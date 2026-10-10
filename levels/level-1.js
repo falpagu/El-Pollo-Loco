@@ -19,7 +19,7 @@ let level_1;
 function initLevel() {
   level_1 = new Level(
     // Enemies
-    [new Chicken(), new Chicken(), new Chicken()],
+    [new Chicken(500), new Chicken(900), new Chicken(1000)],
 
     // Clouds
     [new Cloud()],
