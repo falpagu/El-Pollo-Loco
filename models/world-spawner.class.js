@@ -43,6 +43,7 @@ class WorldSpawner {
 
   /**
    * Spawns a chicken ahead of the character, up to 8 enemies.
+   * Each new enemy is randomly a normal or a small chicken.
    *
    * @returns {void}
    */
@@ -50,6 +51,7 @@ class WorldSpawner {
     const { character, level } = this.world;
     if (!this.canSpawn(level.enemies, 8)) return;
     const x = character.x + 500 + Math.random() * 300;
+    const EnemyType = Math.random() < 0.5 ? Chicken : SmallChicken;
     level.enemies.push(new Chicken(Math.min(x, level.level_end_x - 50)));
   }
 

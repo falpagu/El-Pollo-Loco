@@ -26,8 +26,8 @@ class WorldRenderer {
     const w = this.world;
     w.ctx.clearRect(0, 0, w.canvas.width, w.canvas.height);
     this.drawBackground();
-    this.drawStatusBars();
     this.drawGameObjects();
+    this.drawStatusBars();
     if (w.isPaused) this.drawPauseOverlay();
     w.animationFrame = requestAnimationFrame(() => this.draw());
   }
@@ -41,6 +41,7 @@ class WorldRenderer {
     const { ctx, camera_x, level } = this.world;
     ctx.translate(camera_x, 0);
     this.addObjectsToMap(level.backgroundObjects);
+    this.addObjectsToMap(level.clouds);
     ctx.translate(-camera_x, 0);
   }
 
