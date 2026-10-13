@@ -5,6 +5,18 @@
   font-style: normal;
 }
 
+:root {
+  --brown: #77583c;
+  --orange: #f4502a;
+  --text: rgb(223, 223, 217);
+  --text-dark: rgb(44, 44, 40);
+  --white: #fff;
+  --background: #000;
+  --overlay: rgba(0, 0, 0, 0.3);
+  --shadow: rgba(0, 0, 0, 0.7);
+  --shadow-soft: rgba(0, 0, 0, 0.4);
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -15,7 +27,7 @@ body {
   background-size: cover;
   font-family: "rye", Arial, Helvetica, sans-serif;
   font-size: 16px;
-  color: rgb(44, 44, 40);
+  color: var(--text-dark);
   overflow-x: hidden;
 }
 
@@ -30,12 +42,12 @@ main {
 h1 {
   font-size: clamp(2rem, 6vw, 4rem);
   letter-spacing: 3px;
-  text-shadow: 3px 3px 7px rgba(0, 0, 0, 0.7);
+  text-shadow: 3px 3px 7px var(--shadow);
   margin-top: clamp(8px, 2vh, 16px);
 }
 
 canvas {
-  background-color: #000;
+  background-color: var(--background);
   display: block;
   width: 100%;
   height: 100%;
@@ -59,7 +71,7 @@ canvas {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: var(--background);
 }
 
 .start_image {
@@ -84,7 +96,7 @@ canvas {
   gap: clamp(5px, 1.5vw, 16px);
   margin: 0 0 clamp(8px, 2vh, 16px);
   font-size: clamp(1rem, 1.6vw, 1.2rem);
-  color: rgb(223, 223, 217);
+  color: var(--text);
 }
 
 .arrows {
@@ -94,7 +106,7 @@ canvas {
 
 .arrows svg {
   width: 32px;
-  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(2px 4px 6px var(--shadow-soft));
 }
 
 .keys {
@@ -104,7 +116,7 @@ canvas {
 }
 
 .keys_container span {
-  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.7);
+  text-shadow: 2px 2px 12px var(--shadow);
 }
 
 .space_key {
@@ -149,7 +161,7 @@ canvas {
 .game_container:fullscreen {
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: var(--background);
   max-width: none;
 }
 
@@ -163,7 +175,7 @@ canvas {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
-  background: rgb(0, 0, 0, 0.3);
+  background: var(--overlay);
   -webkit-backdrop-filter: blur(4px);
   z-index: 5;
 }
@@ -187,7 +199,7 @@ canvas {
 .end_buttons button {
   background: none;
   border: none;
-  color: rgb(223, 223, 217);
+  color: var(--text);
   border-radius: 8px;
   cursor: pointer;
   font-size: clamp(18px, 3.5vw, 24px);
@@ -204,7 +216,7 @@ footer {
   gap: clamp(5px, 1.2vw, 16px);
   padding: clamp(8px, 1.5vh, 12px) clamp(8px, 2vw, 16px);
   font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-  color: rgb(223, 223, 217);
+  color: var(--text);
   position: relative;
   z-index: 101;
 }
@@ -214,12 +226,12 @@ footer p {
   margin: 0;
   cursor: pointer;
   text-decoration: none;
-  color: rgb(223, 223, 217);
-  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.7);
+  color: var(--text);
+  text-shadow: 2px 2px 12px var(--shadow);
 }
 
 footer a:hover {
-  color: #77583c;
+  color: var(--brown);
 }
 
 /* MOBILE */
@@ -256,9 +268,9 @@ footer a:hover {
     width: clamp(44px, 8vw, 60px);
     height: clamp(44px, 8vw, 60px);
     border-radius: 50%;
-    border: 4px solid #77583c;
-    background: #f4502a;
-    color: #fff;
+    border: 4px solid var(--brown);
+    background: var(--orange);
+    color: var(--white);
     font-size: 30px;
     touch-action: none;
     display: flex;
@@ -280,8 +292,8 @@ footer a:hover {
     position: fixed;
     inset: 0;
     z-index: 100;
-    background: #000;
-    color: rgb(223, 223, 217);
+    background: var(--background);
+    color: var(--text);
     text-align: center;
     font-size: 1.5rem;
   }
