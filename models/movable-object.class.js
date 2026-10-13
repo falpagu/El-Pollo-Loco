@@ -128,18 +128,22 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Reduces energy by the given damage (minimum 0). The hit time is stored
-   * only if the object is still alive afterwards.
+   * Reduces the character's energy and starts the hurt animation.
    *
-   * @param {number} [damage=20] - Energy to subtract.
+   * @param {number} damage - Energy to subtract.
    * @returns {void}
    */
   hit(damage = 20) {
     this.energy -= damage;
+
     if (this.energy < 0) {
       this.energy = 0;
+    }
+
+    if (this.energy === 0) {
+      this.dead = true;
     } else {
-      this.lastHit = new Date().getTime();
+      this.lastHit = Date.now();
     }
   }
 

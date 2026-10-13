@@ -17,13 +17,17 @@ let world;
 let keyboard = new Keyboard();
 
 /**
- * Starts the game from the start screen: hides the start screen,
- * shows the fullscreen and mute buttons, starts the background music
+ * Starts the game in fullscreen mode when the player clicks Play.
+ * Hides the start screen, shows the gamecontrols, starts the background music
  * and initializes the world.
  *
  * @returns {void}
  */
 function startGame() {
+  const gameContainer = document.getElementById("gameContainer");
+
+  enterFullscreen(gameContainer);
+
   document.getElementById("touchControls").classList.add("visible");
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("fullscreenBtn").style.display = "flex";
@@ -187,13 +191,13 @@ function toggleFullscreen() {
  * Requests fullscreen for an element (with a WebKit fallback).
  *
  * @param {HTMLElement} element - Element to show in fullscreen.
- * @returns {void}
+ * @returns {Promise<void>|void}
  */
 function enterFullscreen(element) {
   if (element.requestFullscreen) {
-    element.requestFullscreen();
+    return element.requestFullscreen();
   } else if (element.webkitRequestFullscreen) {
-    element.webkitRequestFullscreen();
+    return element.webkitRequestFullscreen();
   }
 }
 

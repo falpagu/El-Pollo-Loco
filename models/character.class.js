@@ -216,14 +216,18 @@ class Character extends MovableObject {
   }
 
   /**
-   * Moves the character left or right, limited by the level start and end.
-   * and the endboss position
+   * Moves the character left or right. While the end boss is alive it acts
+   * as a wall: the character can neither walk through nor jump over it and
+   * is pushed back if the boss walks into it.
    *
    * @returns {void}
    */
   handleWalking() {
-    const endboss = this.world.level.endboss;
-    const rightLimit = endboss.x - this.width;
+    const level = this.world.level;
+    const boss = level.endboss;
+    const rightLimit = boss.isDead()
+      ? level.level_end_x
+      : boss.x - this.width + 60;
 
     if (this.world.keyboard.RIGHT && this.x < rightLimit) {
       this.moveRight();
@@ -231,6 +235,7 @@ class Character extends MovableObject {
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
     }
+    if (this.x > rightLimit) this.x = rightLimit;
   }
 
   /**

@@ -40,7 +40,7 @@ class CollisionManager {
   checkEnemyCollisions() {
     const { level, character } = this.world;
     const hits = level.enemies.filter(
-      (e) => !e.isDead() && character.isColliding(e, 10),
+      (e) => !e.isDead() && character.isColliding(e),
     );
     const stomped = hits.filter((e) => this.isStomp(e));
     if (stomped.length > 0) {
@@ -80,29 +80,34 @@ class CollisionManager {
   }
 
   /**
-   * Checks whether the character lands on top of the given enemy.
+   * Checks whether the character stomps the given enemy. Any contact
+   * while the character is falling counts as a stomp, so a fast fall
+   * cannot skip a narrow height window.
    *
    * @param {MovableObject} enemy - The enemy that was touched.
    * @returns {boolean} True if it is a stomp.
    */
   isStomp(enemy) {
-    const character = this.world.character;
-    const feet = character.y + character.height;
-    return character.speedY < 0 && feet < enemy.y + 40 && feet > enemy.y;
+    return this.world.character.speedY < 0;
   }
 
   /**
-   * Damages the character when touching the living end boss.
-   * The damage is 20, or 40 once the boss has 40% energy or less.
-   *
-   * @returns {void}
-   */
+
+* Damages the character when touching the living end boss.
+* The damage is 40, or 60 once the boss has 40% energy or less.
+*
+* @returns {void}
+  */
   checkBossCollision() {
     const { character, level } = this.world;
     const boss = level.endboss;
-    if (!boss.isDead() && character.isColliding(boss) && !character.isHurt()) {
-      this.damageCharacter(boss.energy <= 40 ? 40 : 20);
-    }
+
+    if (boss.isDead()) return;
+    if (!character.isColliding(boss)) return;
+    if (character.isHurt()) return;
+
+    const damage = boss.energy <= 40 ? 60 : 40;
+    this.damageCharacter(damage);
   }
 
   /**
