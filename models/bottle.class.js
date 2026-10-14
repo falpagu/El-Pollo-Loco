@@ -5,7 +5,10 @@
  * @extends DrawableObject
  */
 class Bottles extends DrawableObject {
-
+  /**
+   * Collision offsets used to adjust the bottle's collision box.
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   */
   offset = { top: 10, bottom: 10, left: 20, right: 10 };
   
   /**

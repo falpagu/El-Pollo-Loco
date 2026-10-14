@@ -106,12 +106,19 @@ class Endboss extends MovableObject {
     setInterval(() => {
       if (this.isGamePaused()) return;
       if (!this.active || this.isDead() || this.isHurt()) return;
+      if (typeof world === "undefined" || !world || !world.character) return;
+
+      const character = world.character;
+      const isTouchingCharacter = this.isColliding(character);
+      if (isTouchingCharacter) {
+        return;
+      }
       this.moveLeft();
       this.otherDirection = false;
     }, 1000 / 60);
 
+    if (this.isGamePaused()) return;
     setInterval(() => {
-      if (this.isGamePaused()) return;
       if (this.isDead()) {
         this.playDeadAnimation(this.IMAGES_DEAD);
       } else if (this.isHurt()) {

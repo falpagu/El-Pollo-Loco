@@ -267,15 +267,15 @@ document.querySelectorAll(".touch_controls button").forEach((btn) => {
   const key = btn.dataset.key;
   const press = (e) => {
     e.preventDefault();
-    if(world && world.isPaused) return;
+    if (world && world.isPaused) return;
     keyboard[key] = true;
   };
   const release = (e) => {
     e.preventDefault();
     keyboard[key] = false;
   };
-    btn.addEventListener("touchstart", press);
-    btn.addEventListener("touchend", release);
-    btn.addEventListener("touchcancel", release);
-  });
-
+  btn.addEventListener("touchstart", press);
+  btn.addEventListener("touchend", release);
+  btn.addEventListener("touchcancel", release);
+  btn.addEventListener('contextmenu', (e) => e.preventDefault());
+});

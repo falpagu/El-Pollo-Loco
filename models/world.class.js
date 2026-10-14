@@ -245,7 +245,7 @@ class World {
     this.throwableObjects.push(
       new ThrowableObject(startX, this.character.y + 100, toLeft),
     );
-    this.statusBarBottles.setPercentage(this.statusBarBottles.percentage - 20);
+    this.statusBarBottles.setPercentage(Math.max(0, this.statusBarBottles.percentage - 10));
   }
 
   /**

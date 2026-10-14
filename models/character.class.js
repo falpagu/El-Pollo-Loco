@@ -227,7 +227,7 @@ class Character extends MovableObject {
     const boss = level.endboss;
     const rightLimit = boss.isDead()
       ? level.level_end_x
-      : boss.x - this.width + 60;
+      : boss.x - this.width + 80;
 
     if (this.world.keyboard.RIGHT && this.x < rightLimit) {
       this.moveRight();
@@ -235,7 +235,6 @@ class Character extends MovableObject {
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
     }
-    if (this.x > rightLimit) this.x = rightLimit;
   }
 
   /**

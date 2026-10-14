@@ -272,10 +272,14 @@ footer a:hover {
     background: var(--orange);
     color: var(--white);
     font-size: 30px;
-    touch-action: none;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none ;
   }
 }
 

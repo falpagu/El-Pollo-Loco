@@ -59,8 +59,8 @@ class CollisionManager {
   stompEnemies(enemies) {
     const character = this.world.character;
     enemies.forEach((e) => this.killEnemy(e));
-    character.speedY = 30;
-    character.jumpStartTime = Date.now();
+    if(character.hasStomped) return;
+    character.hasStomped = true;
   }
 
   /**
@@ -92,12 +92,10 @@ class CollisionManager {
   }
 
   /**
-
-* Damages the character when touching the living end boss.
-* The damage is 40, or 60 once the boss has 40% energy or less.
-*
-* @returns {void}
-  */
+   * Damages the character when touching the living end boss.
+   *
+   * @returns {void}
+   */
   checkBossCollision() {
     const { character, level } = this.world;
     const boss = level.endboss;
@@ -105,9 +103,7 @@ class CollisionManager {
     if (boss.isDead()) return;
     if (!character.isColliding(boss)) return;
     if (character.isHurt()) return;
-
-    const damage = boss.energy <= 40 ? 60 : 40;
-    this.damageCharacter(damage);
+    this.damageCharacter(40);
   }
 
   /**
@@ -132,12 +128,12 @@ class CollisionManager {
    */
   checkCoinCollisions() {
     const { character, level, statusBarCoins } = this.world;
-    level.coins.forEach((coin, index) => {
-      if (!character.isColliding(coin, 30)) return;
+    level.coins = level.coins.filter((coin) => {
+      if (!character.isColliding(coin)) return true;
+
       this.world.playSound("coin", 0.2);
-      level.coins.splice(index, 1);
       statusBarCoins.setPercentage(
-        Math.min(100, statusBarCoins.percentage + 20),
+        Math.min(100, statusBarCoins.percentage + 5),
       );
     });
   }
@@ -150,13 +146,14 @@ class CollisionManager {
    */
   checkBottleCollisions() {
     const { character, level, statusBarBottles } = this.world;
-    level.bottles.forEach((bottle, index) => {
-      if (!character.isColliding(bottle, 30)) return;
+    level.bottles = level.bottles.filter((bottle) => {
+      if (!character.isColliding(bottle)) return true;
+      if(statusBarBottles.percentage >= 100) return true;
       this.world.playSound("bottle", 0.2);
-      level.bottles.splice(index, 1);
       statusBarBottles.setPercentage(
-        Math.min(100, statusBarBottles.percentage + 20),
+        Math.min(100, statusBarBottles.percentage + 10),
       );
+      return false;
     });
   }
 

@@ -61,6 +61,13 @@ class MovableObject extends DrawableObject {
    */
   isJumping = false;
 
+    /**
+   * Whether the object already bounced off an enemy in the current jump.
+   * Reset when the object lands.
+   * @type {boolean}
+   */
+  hasStomped = false;
+
   /**
    * Timestamp (ms) of the last animation frame change.
    * @type {number}
@@ -91,6 +98,7 @@ class MovableObject extends DrawableObject {
         this.speedY -= this.accelartion;
       } else {
         this.isJumping = false;
+        this.hasStomped = false;
         this.speedY = 0;
         this.y = this.groundY;
       }
