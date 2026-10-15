@@ -267,7 +267,7 @@ class World {
    */
   checkEndbossActivation() {
     let boss = this.level.endboss;
-    if (!boss.active && this.character.x > boss.x - 600) {
+    if (!boss.active && this.character.x > boss.x - 400) {
       boss.active = true;
     }
   }

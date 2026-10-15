@@ -38,7 +38,7 @@ class WorldSpawner {
    */
   canSpawn(list, max) {
     const { character, level } = this.world;
-    return list.length < max && character.x < level.level_end_x - 300;
+    return list.length < max && character.x < level.level_end_x - 100;
   }
 
   /**
@@ -63,10 +63,12 @@ class WorldSpawner {
    */
   spawnCoins() {
     const { character, level } = this.world;
-    if (!this.canSpawn(level.coins, 10)) return;
-    const x = character.x + 400 + Math.random() * 500;
-    const y = 50 + Math.random() * 300;
-    level.coins.push(new Coins(Math.min(x, level.level_end_x - 50), y));
+    for (let i = 0; i < 3; i++) {
+      if (!this.canSpawn(level.coins, 14)) return;
+      const x = character.x + 400 + Math.random() * 500;
+      const y = 50 + Math.random() * 250;
+      level.coins.push(new Coins(Math.min(x, level.level_end_x - 50), y));
+    }
   }
 
   /**

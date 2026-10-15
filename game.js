@@ -24,10 +24,7 @@ let keyboard = new Keyboard();
  * @returns {void}
  */
 function startGame() {
-  const gameContainer = document.getElementById("gameContainer");
-
-  enterFullscreen(gameContainer);
-
+  document.activeElement.blur();
   document.getElementById("touchControls").classList.add("visible");
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("fullscreenBtn").style.display = "flex";
@@ -133,11 +130,16 @@ window.addEventListener("keydown", (e) => {
   }
 
   if (e.key === " ") {
+    e.preventDefault();
     keyboard.SPACE = true;
   }
 
   if (e.key.toLowerCase() === "d") {
     keyboard.D = true;
+  }
+
+  if (e.key.toLowerCase() === "f" && !e.repeat) {
+    toggleFullscreen();
   }
 });
 
@@ -178,6 +180,7 @@ document.getElementById("current-year").textContent = new Date().getFullYear();
  * @returns {void}
  */
 function toggleFullscreen() {
+  document.activeElement.blur();
   let fullscreenElement = document.getElementById("gameContainer");
 
   if (!document.fullscreenElement) {
@@ -243,6 +246,7 @@ function updateMuteIcon() {
  * @returns {void}
  */
 function toggleSound() {
+  document.activeElement.blur();
   SoundManager.toggleMute();
   updateMuteIcon();
 }
@@ -253,7 +257,7 @@ updateMuteIcon();
  * Toggles pause when the Escape key is pressed.
  */
 window.addEventListener("keydown", (e) => {
-  if (e.code === "Escape") {
+  if (e.code === "Escape" && world) {
     world.togglePause();
   }
 });
@@ -277,5 +281,5 @@ document.querySelectorAll(".touch_controls button").forEach((btn) => {
   btn.addEventListener("touchstart", press);
   btn.addEventListener("touchend", release);
   btn.addEventListener("touchcancel", release);
-  btn.addEventListener('contextmenu', (e) => e.preventDefault());
+  btn.addEventListener("contextmenu", (e) => e.preventDefault());
 });

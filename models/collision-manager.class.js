@@ -103,6 +103,7 @@ class CollisionManager {
     if (boss.isDead()) return;
     if (!character.isColliding(boss)) return;
     if (character.isHurt()) return;
+    this.world.playSound("attack", 0.4);
     this.damageCharacter(40);
   }
 
@@ -168,7 +169,7 @@ class CollisionManager {
     w.throwableObjects.forEach((bottle) => {
       if (!bottle.hasHit) this.checkSingleBottleHit(bottle);
     });
-    w.throwableObjects = w.throwableObjects.filter((b) => !b.hasHit);
+    w.throwableObjects = w.throwableObjects.filter((b) => !b.removable);
   }
 
   /**
@@ -185,10 +186,10 @@ class CollisionManager {
       (e) => !e.isDead() && bottle.isColliding(e),
     );
     if (enemy) {
-      bottle.hasHit = true;
+      bottle.splash();
       this.killEnemy(enemy);
     } else if (!boss.isDead() && bottle.isColliding(boss)) {
-      bottle.hasHit = true;
+      bottle.splash();
       this.hitBoss();
     }
   }

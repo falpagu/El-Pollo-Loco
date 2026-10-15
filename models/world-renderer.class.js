@@ -68,12 +68,12 @@ class WorldRenderer {
     const { ctx, camera_x, character, level, throwableObjects } = this.world;
     ctx.translate(camera_x, 0);
     this.addToMap(character);
-    this.addToMap(level.endboss);
     this.addObjectsToMap(level.clouds);
     this.addObjectsToMap(level.enemies);
     this.addObjectsToMap(level.coins);
     this.addObjectsToMap(level.bottles);
     this.addObjectsToMap(throwableObjects);
+      this.addToMap(level.endboss);
     ctx.translate(-camera_x, 0);
   }
 
