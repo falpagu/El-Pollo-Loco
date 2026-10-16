@@ -29,6 +29,18 @@ class Chicken extends MovableObject {
    */
   offset = { top: 5, bottom: 5, left: 5, right: 5 };
 
+    /**
+   * Name of the sound in {@link SoundManager.sounds}.
+   * @type {string}
+   */
+  soundName = "chicken";
+
+  /**
+   * Distance in px to the character within which the sound is played.
+   * @type {number}
+   */
+  soundDistance = 400;
+
   /**
    * Image paths of the walking animation.
    * @type {string[]}
@@ -103,10 +115,11 @@ class Chicken extends MovableObject {
    */
   playChickenSound() {
     if (typeof world === "undefined" || !world) return;
-    const near = Math.abs(world.character.x - this.x) < 400;
+    const near = Math.abs(world.character.x - this.x) < this.soundDistance;
     const now = Date.now();
     if (!near || now - (this.lastSound || 0) < 3000) return;
     this.lastSound = now;
-    SoundManager.play("chicken");
+    SoundManager.play(this.soundName);
+   
   }
 }

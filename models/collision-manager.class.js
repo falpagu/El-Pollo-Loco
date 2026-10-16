@@ -103,7 +103,7 @@ class CollisionManager {
     if (boss.isDead()) return;
     if (!character.isColliding(boss)) return;
     if (character.isHurt()) return;
-      SoundManager.play("attack");
+    SoundManager.play("bossAngry");
     this.damageCharacter(40);
   }
 
@@ -134,8 +134,7 @@ class CollisionManager {
     const { character, level, statusBarCoins } = this.world;
     level.coins = level.coins.filter((coin) => {
       if (!character.isColliding(coin)) return true;
-
-       SoundManager.play("coin");
+      SoundManager.play("coin");
       statusBarCoins.setPercentage(
         Math.min(100, statusBarCoins.percentage + 5),
       );
@@ -208,6 +207,7 @@ class CollisionManager {
     const boss = level.endboss;
     level.endboss.hitByBottle();
     SoundManager.play("bossHit");
+    SoundManager.play("attack");
     statusBarEndboss.setPercentage(boss.energy);
     SoundManager.play(boss.energy === 0 ? "bossDead" : "bossHit");
   }

@@ -52,7 +52,7 @@ class WorldSpawner {
     if (!this.canSpawn(level.enemies, 8)) return;
     const x = character.x + 500 + Math.random() * 300;
     const EnemyType = Math.random() < 0.5 ? Chicken : SmallChicken;
-    level.enemies.push(new Chicken(Math.min(x, level.level_end_x - 50)));
+    level.enemies.push(new EnemyType(Math.min(x, level.level_end_x - 50)));
   }
 
   /**

@@ -22,7 +22,7 @@ class SmallChicken extends Chicken {
    * as the normal chicken.
    * @type {number}
    */
-  y = 380;
+  y = 390;
 
   /**
    * Collision offsets used to adjust the small chicken's collision box.
@@ -30,6 +30,10 @@ class SmallChicken extends Chicken {
    */
   offset = { top: 4, bottom: 3, left: 4, right: 4 };
 
+  
+  soundName = "smallChicken";
+
+  soundDistance = 300;
   /**
    * Image paths of the walking animation.
    * @type {string[]}
@@ -59,5 +63,8 @@ class SmallChicken extends Chicken {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
     this.speed = 0.3 + Math.random() * 0.5;
+    this.animate();
   }
+
+
 }
