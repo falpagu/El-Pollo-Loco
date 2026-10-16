@@ -1,28 +1,64 @@
 /**
  * Central manager for all game sounds. Holds one `Audio` object per sound
- * and handles playing, pausing and muting. The mute state is stored in `localStorage`.
+ * and handles playing, pausing and muting. The mute state is stored in
+ * `localStorage`.
  */
 class SoundManager {
   /**
-   * All game sounds, accessible by name.
+   * All game sounds, accessible by name. Ordered by game flow:
+   * music, character, collecting, fight, enemies, game end.
    * @type {Object<string, HTMLAudioElement>}
    */
   static sounds = {
+    // Music
     background: new Audio("assets/audio/background.mp3"),
+
+    // Character
     walk: new Audio("assets/audio/walk.mp3"),
-    chicken: new Audio("./assets/audio/chicken02.mp3"),
     jump: new Audio("assets/audio/jump.mp3"),
+    sleep: new Audio("assets/audio/snore.mp3"),
+    hurt: new Audio("assets/audio/hurt.mp3"),
+
+    // Collecting
     coin: new Audio("assets/audio/coin.mp3"),
     bottle: new Audio("assets/audio/bottle.mp3"),
+
+    // Fight
+    throw: new Audio("assets/audio/throw.mp3"),
     smash: new Audio("assets/audio/smash.mp3"),
     bossHit: new Audio("assets/audio/boss_hit.mp3"),
-    hurt: new Audio("assets/audio/hurt.mp3"),
-    throw: new Audio("assets/audio/throw.mp3"),
+    attack: new Audio("assets/audio/attack.mp3"),
+
+    // Enemies
+    chicken: new Audio("assets/audio/chicken02.mp3"),
+
+    // Game end
     win: new Audio("assets/audio/win.mp3"),
     lose: new Audio("assets/audio/lose.mp3"),
-    sleep: new Audio("assets/audio/snore.mp3"),
-    attack: new Audio("assets/audio/attack.mp3"),
-    
+  };
+
+  /**
+   * Volume per sound (0 to 1). Sounds without an entry play at full
+   * volume. Same order as {@link SoundManager.sounds}.
+   * @type {Object<string, number>}
+   */
+  static volumes = {
+    background: 0.02,
+
+    walk: 0.9,
+    jump: 0.2,
+    sleep: 0.5,
+    hurt: 0.1,
+
+    coin: 0.2,
+    bottle: 0.2,
+
+    throw: 0.2,
+    smash: 0.4,
+    bossHit: 0.8,
+    attack: 0.3,
+
+    chicken: 0.1,
   };
 
   /**
@@ -38,19 +74,19 @@ class SoundManager {
    */
   static pausedSounds = [];
 
-  static volumes = { coin: 0.2, hurt: 0.1, smash: 0.4, attack: 0.3, chicken: 0.3 };
-
   /**
-   * Plays a sound from the beginning. If it is already playing,
-   * it restarts.
+   * Plays a sound from the beginning with its volume from
+   * {@link SoundManager.volumes}. If it is already playing, it restarts.
+   * Unknown names are ignored, and blocked playback (browser autoplay
+   * rules) does not cause an error.
    *
    * @param {string} name - Key in {@link SoundManager.sounds}, e.g. `"coin"`.
    * @returns {void}
    */
   static play(name) {
     const sound = this.sounds[name];
-    if(!sound) return;
-    if(this.volumes[name] !== undefined) sound.volume = this.volumes[name];
+    if (!sound) return;
+    if (this.volumes[name] !== undefined) sound.volume = this.volumes[name];
     sound.currentTime = 0;
     sound.play().catch(() => {});
   }
@@ -73,7 +109,7 @@ class SoundManager {
    * @returns {void}
    */
   static resumeAll() {
-    this.pausedSounds.forEach((s) => s.play());
+    this.pausedSounds.forEach((s) => s.play().catch(() => {}));
     this.pausedSounds = [];
   }
 
@@ -102,3 +138,6 @@ class SoundManager {
 }
 
 SoundManager.applyMute();
+SoundManager.sounds.background.loop = true;
+SoundManager.sounds.walk.loop = true;
+SoundManager.sounds.sleep.loop = true;

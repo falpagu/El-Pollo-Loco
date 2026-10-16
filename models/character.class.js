@@ -208,7 +208,6 @@ class Character extends MovableObject {
     this.checkActivity();
     if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isJumping) {
       this.jump();
-      SoundManager.sounds.jump.volume = 0.2;
       SoundManager.play("jump");
       this.world.keyboard.SPACE = false;
     }
@@ -288,13 +287,11 @@ class Character extends MovableObject {
    * @returns {void}
    */
   playWalkSound() {
-    if (SoundManager.sounds.walk.paused) {
-      SoundManager.sounds.walk.loop = true;
-      SoundManager.sounds.walk.volume = 0.9;
-      SoundManager.sounds.walk.play();
+    const sound = SoundManager.sounds.walk;
+    if (sound.paused) {
+      SoundManager.play("walk");
     }
   }
-
   /**
    * Plays the sleep sound as a loop if it is not already playing.
    *
@@ -303,8 +300,7 @@ class Character extends MovableObject {
   playSleepSound() {
     const sound = SoundManager.sounds.sleep;
     if (sound.paused) {
-      sound.loop = true;
-      sound.play();
+      SoundManager.play("sleep");
     }
   }
 
@@ -313,6 +309,7 @@ class Character extends MovableObject {
    *
    * @returns {void}
    */
+
   stopSleepSound() {
     const sound = SoundManager.sounds.sleep;
     sound.pause();

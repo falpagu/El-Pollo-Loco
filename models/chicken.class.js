@@ -91,7 +91,22 @@ class Chicken extends MovableObject {
     setInterval(() => {
       if (this.isGamePaused() || this.isDead()) return;
       this.playAnimation(this.IMAGES_WALKING);
-      SoundManager.play("chicken");
+      this.playChickenSound();
     }, 200);
+  }
+
+  /**
+   * Plays the chicken sound at most once per 3 seconds, and only
+   * while the character is within 400 px.
+   *
+   * @returns {void}
+   */
+  playChickenSound() {
+    if (typeof world === "undefined" || !world) return;
+    const near = Math.abs(world.character.x - this.x) < 400;
+    const now = Date.now();
+    if (!near || now - (this.lastSound || 0) < 3000) return;
+    this.lastSound = now;
+    SoundManager.play("chicken");
   }
 }

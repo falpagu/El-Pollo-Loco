@@ -29,9 +29,7 @@ function startGame() {
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("fullscreenBtn").style.display = "flex";
   document.getElementById("muteBtn").style.display = "block";
-  SoundManager.sounds.background.loop = true;
-  SoundManager.sounds.background.volume = 0.02;
-  SoundManager.sounds.background.play();
+  SoundManager.play("background");
   init();
 }
 
@@ -59,6 +57,7 @@ function stopGame() {
   cancelAnimationFrame(world.animationFrame);
   SoundManager.sounds.walk.pause();
   SoundManager.sounds.chicken.pause();
+  SoundManager.sounds.sleep.pause();
 }
 
 /**
@@ -89,8 +88,7 @@ function restartGame() {
   document.getElementById("endScreen").style.display = "none";
   keyboard = new Keyboard();
   stopEndSounds();
-  SoundManager.sounds.background.currentTime = 0;
-  SoundManager.sounds.background.play();
+  SoundManager.play("background");
   init();
 }
 
