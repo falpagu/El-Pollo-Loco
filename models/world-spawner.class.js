@@ -79,7 +79,7 @@ class WorldSpawner {
    */
   spawnBottles() {
     const { character, level } = this.world;
-    if (!this.canSpawn(level.bottles, 12)) return;
+    if (!this.canSpawn(level.bottles, 15)) return;
     const x = character.x + 400 + Math.random() * 500;
     level.bottles.push(new Bottles(Math.min(x, level.level_end_x - 50), 370));
   }
