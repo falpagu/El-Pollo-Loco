@@ -103,6 +103,7 @@ class ThrowableObject extends MovableObject {
     this.hasHit = true;
     this.speedY = 0;
     this.accelartion = 0;
+    SoundManager.play("splash");
   }
 
   /** Clears all intervals of this bottle. */

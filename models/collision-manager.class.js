@@ -117,8 +117,11 @@ class CollisionManager {
   damageCharacter(damage = 20) {
     const { character, statusBarHealth } = this.world;
     character.hit(damage);
-  SoundManager.play("hurt");
-      statusBarHealth.setPercentage(character.energy);
+    SoundManager.play("hurt");
+    statusBarHealth.setPercentage(character.energy);
+    if(character.energy === 0){
+      SoundManager.play("pepeDead");
+    }
   }
 
   /**
@@ -202,8 +205,10 @@ class CollisionManager {
    */
   hitBoss() {
     const { level, statusBarEndboss } = this.world;
+    const boss = level.endboss;
     level.endboss.hitByBottle();
     SoundManager.play("bossHit");
-    statusBarEndboss.setPercentage(level.endboss.energy);
+    statusBarEndboss.setPercentage(boss.energy);
+    SoundManager.play(boss.energy === 0 ? "bossDead" : "bossHit");
   }
 }

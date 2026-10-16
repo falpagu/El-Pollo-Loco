@@ -28,6 +28,9 @@ class SoundManager {
     smash: new Audio("assets/audio/smash.mp3"),
     bossHit: new Audio("assets/audio/boss_hit.mp3"),
     attack: new Audio("assets/audio/attack.mp3"),
+    splash: new Audio("assets/audio/splash.mp3"),
+    bossDead: new Audio("assets/audio/bossDead.mp3"),
+    pepeDead: new Audio("assets/audio/pepeDead.mp3"),
 
     // Enemies
     chicken: new Audio("assets/audio/chicken02.mp3"),
@@ -48,7 +51,7 @@ class SoundManager {
     walk: 0.9,
     jump: 0.2,
     sleep: 0.5,
-    hurt: 0.1,
+    hurt: 0.2,
 
     coin: 0.2,
     bottle: 0.2,
@@ -56,9 +59,15 @@ class SoundManager {
     throw: 0.2,
     smash: 0.4,
     bossHit: 0.8,
-    attack: 0.3,
+    attack: 0.4,
+    splash: 0.7,
+    bossDead: 0.9,
+    pepeDead: 0.7,
 
     chicken: 0.1,
+
+    win: 0.4,
+    lose: 0.4
   };
 
   /**
