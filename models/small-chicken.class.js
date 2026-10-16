@@ -30,10 +30,18 @@ class SmallChicken extends Chicken {
    */
   offset = { top: 4, bottom: 3, left: 4, right: 4 };
 
-  
+  /**
+   * Name of the sound used for this enemy.
+   * @type {string}
+   */
   soundName = "smallChicken";
 
+  /**
+   * Maximum distance at which the enemy's sound can be heard.
+   * @type {number}
+   */
   soundDistance = 300;
+
   /**
    * Image paths of the walking animation.
    * @type {string[]}
@@ -50,13 +58,12 @@ class SmallChicken extends Chicken {
    */
   IMAGES_DEAD = ["assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
-  /**
+   /**
    * Creates a small chicken, loads its own images and assigns
    * a random speed (0.3 to 0.8).
    *
    * @param {number} [x=200 + Math.random() * 500] - The starting X position.
    */
-
   constructor(x = 200 + Math.random() * 500) {
     super(x);
     this.loadImage("assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png");
@@ -65,6 +72,4 @@ class SmallChicken extends Chicken {
     this.speed = 0.3 + Math.random() * 0.5;
     this.animate();
   }
-
-
 }

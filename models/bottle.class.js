@@ -10,7 +10,7 @@ class Bottles extends DrawableObject {
    * @type {{top: number, bottom: number, left: number, right: number}}
    */
   offset = { top: 10, bottom: 10, left: 20, right: 10 };
-  
+
   /**
    * Image paths of the two bottle variants that are preloaded.
    * @type {string[]}

@@ -61,7 +61,7 @@ class MovableObject extends DrawableObject {
    */
   isJumping = false;
 
-    /**
+  /**
    * Whether the object already bounced off an enemy in the current jump.
    * Reset when the object lands.
    * @type {boolean}
@@ -136,11 +136,11 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Reduces the character's energy and starts the hurt animation.
-   *
-   * @param {number} damage - Energy to subtract.
-   * @returns {void}
-   */
+ * Reduces the object's energy and updates its state after a hit.
+ *
+ * @param {number} [damage=20] - Amount of energy to subtract.
+ * @returns {void}
+ */
   hit(damage = 20) {
     this.energy -= damage;
 
@@ -167,10 +167,10 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Checks whether the object has no energy left.
-   *
-   * @returns {boolean} True if energy is 0.
-   */
+ * Checks whether the object has no energy remaining.
+ *
+ * @returns {boolean} True if the object's energy is 0.
+ */
   isDead() {
     return this.energy == 0;
   }

@@ -80,12 +80,10 @@ class CollisionManager {
   }
 
   /**
-   * Checks whether the character stomps the given enemy. Any contact
-   * while the character is falling counts as a stomp, so a fast fall
-   * cannot skip a narrow height window.
+   * Checks whether the character is falling and therefore stomps
+   * an enemy on contact.
    *
-   * @param {MovableObject} enemy - The enemy that was touched.
-   * @returns {boolean} True if it is a stomp.
+   * @returns {boolean} True if the character is falling.
    */
   isStomp(enemy) {
     return this.world.character.speedY < 0;
@@ -119,7 +117,7 @@ class CollisionManager {
     character.hit(damage);
     SoundManager.play("hurt");
     statusBarHealth.setPercentage(character.energy);
-    if(character.energy === 0){
+    if (character.energy === 0) {
       SoundManager.play("pepeDead");
     }
   }
@@ -152,7 +150,7 @@ class CollisionManager {
     level.bottles = level.bottles.filter((bottle) => {
       if (!character.isColliding(bottle)) return true;
       if (statusBarBottles.percentage >= 100) return true;
-        SoundManager.play("bottle");
+      SoundManager.play("bottle");
       statusBarBottles.setPercentage(
         Math.min(100, statusBarBottles.percentage + 10),
       );

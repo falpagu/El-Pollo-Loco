@@ -108,7 +108,10 @@ function backToHome() {
 
 /**
  * Sets the matching keyboard flag to true when a game key is pressed.
- * Also plays the jump sound on the space bar.
+ * Prevents the default space bar behavior and handles fullscreen activation.
+ *
+ * @param {KeyboardEvent} e - The keyboard event.
+ * @returns {void}
  */
 window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") {
@@ -143,6 +146,9 @@ window.addEventListener("keydown", (e) => {
 
 /**
  * Sets the matching keyboard flag to false when a game key is released.
+ *
+ * @param {KeyboardEvent} e - The keyboard event.
+ * @returns {void}
  */
 window.addEventListener("keyup", (e) => {
   if (e.key === "ArrowLeft") {
@@ -253,6 +259,9 @@ updateMuteIcon();
 
 /**
  * Toggles pause when the Escape key is pressed.
+ *
+ * @param {KeyboardEvent} e - The keyboard event.
+ * @returns {void}
  */
 window.addEventListener("keydown", (e) => {
   if (e.code === "Escape" && world) {
@@ -264,6 +273,8 @@ window.addEventListener("keydown", (e) => {
  * Connects the on-screen touch buttons to the keyboard state.
  * Touch start sets the key flag to true, touch end sets it to false.
  * The key name comes from the button's `data-key` attribute.
+ *
+ * @returns {void}
  */
 document.querySelectorAll(".touch_controls button").forEach((btn) => {
   const key = btn.dataset.key;

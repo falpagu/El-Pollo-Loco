@@ -66,9 +66,9 @@ class World {
   lastThrow;
 
   /**
-   * ID of the pending animation frame. Used by `cancelAnimationFrame`.
-   * @type {number}
-   */
+ * ID of the pending animation frame. Used by `cancelAnimationFrame`.
+ * @type {number|undefined}
+ */
   animationFrame;
 
   /**
@@ -241,30 +241,32 @@ class World {
   throwBottle() {
     let toLeft = this.character.otherDirection;
     let startX = toLeft ? this.character.x - 20 : this.character.x + 100;
-      SoundManager.play("throw");
+    SoundManager.play("throw");
     this.throwableObjects.push(
       new ThrowableObject(startX, this.character.y + 100, toLeft),
     );
-    this.statusBarBottles.setPercentage(Math.max(0, this.statusBarBottles.percentage - 10));
+    this.statusBarBottles.setPercentage(
+      Math.max(0, this.statusBarBottles.percentage - 10),
+    );
   }
 
-  /**
-   * Sets the volume of a sound and plays it from the start.
-   *
-   * @param {string} name - Key in {@link SoundManager.sounds}.
-   * @param {number} volume - Volume between 0 and 1.
-   * @returns {void}
-   */
+/**
+ * Sets the volume of a sound and plays it from the start.
+ *
+ * @param {string} name - Name of the sound in `SoundManager.sounds`.
+ * @param {number} volume - Playback volume between 0 and 1.
+ * @returns {void}
+ */
   playSound(name, volume) {
     SoundManager.sounds[name].volume = volume;
     SoundManager.play(name);
   }
 
-  /**
-   * Activates the end boss when the character is within 600 px of it.
-   *
-   * @returns {void}
-   */
+/**
+ * Activates the end boss when the character approaches within 400 px.
+ *
+ * @returns {void}
+ */
   checkEndbossActivation() {
     let boss = this.level.endboss;
     if (!boss.active && this.character.x > boss.x - 400) {

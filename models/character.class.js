@@ -168,11 +168,11 @@ class Character extends MovableObject {
     }
   }
 
-  /**
-   * Checks whether the character has been inactive for more than 5 seconds.
-   *
-   * @returns {boolean} True if the character should play the sleep animation.
-   */
+/**
+ * Checks whether the character has been inactive for more than 4 seconds.
+ *
+ * @returns {boolean} True if the character should play the sleep animation.
+ */
   isSleeping() {
     return Date.now() - this.lastActionTime > 4000;
   }
@@ -309,7 +309,6 @@ class Character extends MovableObject {
    *
    * @returns {void}
    */
-
   stopSleepSound() {
     const sound = SoundManager.sounds.sleep;
     sound.pause();
@@ -321,6 +320,7 @@ class Character extends MovableObject {
    *
    * @returns {void}
    */
+
   stopWalkSound() {
     SoundManager.sounds.walk.pause();
     SoundManager.sounds.walk.currentTime = 0;

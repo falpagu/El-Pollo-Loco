@@ -73,7 +73,7 @@ class WorldRenderer {
     this.addObjectsToMap(level.coins);
     this.addObjectsToMap(level.bottles);
     this.addObjectsToMap(throwableObjects);
-      this.addToMap(level.endboss);
+    this.addToMap(level.endboss);
     ctx.translate(-camera_x, 0);
   }
 
@@ -102,9 +102,9 @@ class WorldRenderer {
   }
 
   /**
-   * Draws a single object. Objects facing left are mirrored while drawing.
+   * Draws a single object and mirrors it if it faces the opposite direction.
    *
-   * @param {DrawableObject} movable - Object to draw.
+   * @param {DrawableObject} movable - The object to draw.
    * @returns {void}
    */
   addToMap(movable) {

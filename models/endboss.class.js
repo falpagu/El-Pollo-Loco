@@ -45,6 +45,10 @@ class Endboss extends MovableObject {
    */
   active = false;
 
+  /**
+   * Image paths of the walking animation.
+   * @type {string[]}
+   */
   IMAGES_WALKING = [
     "assets/img/4_enemie_boss_chicken/1_walk/G1.png",
     "assets/img/4_enemie_boss_chicken/1_walk/G2.png",
@@ -52,6 +56,10 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/1_walk/G4.png",
   ];
 
+  /**
+   * Image paths of the alert animation.
+   * @type {string[]}
+   */
   IMAGES_ALERT = [
     "assets/img/4_enemie_boss_chicken/2_alert/G5.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G6.png",
@@ -63,6 +71,10 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
+  /**
+   * Image paths of the attack animation.
+   * @type {string[]}
+   */
   IMAGES_ATTACK = [
     "assets/img/4_enemie_boss_chicken/3_attack/G13.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G14.png",
@@ -149,9 +161,14 @@ class Endboss extends MovableObject {
     }, 200);
   }
 
-
-  isTouchingCharacter(){
-    if( typeof world === "undefined" || !world || !world.character) return false;
+  /**
+   * Checks whether the boss is touching the living character.
+   *
+   * @returns {boolean} True if the boss touches the living character.
+   */
+  isTouchingCharacter() {
+    if (typeof world === "undefined" || !world || !world.character)
+      return false;
     return this.isColliding(world.character) && !world.character.isDead();
   }
 

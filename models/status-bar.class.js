@@ -43,13 +43,13 @@ class StatusBar extends DrawableObject {
     this.img = this.imageCache[path];
   }
 
-  /**
-   * Maps the current percentage to an index in the image array.
-   * 100 returns 0, 80 returns 1, and so on down to 20 returning 4.
-   * Every other value (including 0) returns 5.
-   *
-   * @returns {number} Index of the image to display (0 to 5).
-   */
+ /**
+ * Calculates the image index based on the current percentage.
+ * 100% returns index 0, 80% returns index 1, and so on.
+ * 0% returns index 5.
+ *
+ * @returns {number} Index of the image to display (0 to 5).
+ *//
   resolveImageIndex() {
     return 5 - Math.ceil(this.percentage / 20);
   }

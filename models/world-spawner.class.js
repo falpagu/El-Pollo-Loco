@@ -28,14 +28,14 @@ class WorldSpawner {
     this.cleanupObjects();
   }
 
-  /**
-   * Checks whether another object of a list may be spawned: the list is
-   * below its maximum and the character is not near the level end.
-   *
-   * @param {Array} list - The current objects.
-   * @param {number} max - Maximum number of objects.
-   * @returns {boolean} True if a new object may be spawned.
-   */
+ /**
+ * Checks whether another object may be spawned: the list is below
+ * its maximum and the character is not near the level end.
+ *
+ * @param {Array<Chicken|SmallChicken|Coins|Bottles>} list - The current objects.
+ * @param {number} max - Maximum number of objects.
+ * @returns {boolean} True if a new object may be spawned.
+ */
   canSpawn(list, max) {
     const { character, level } = this.world;
     return list.length < max && character.x < level.level_end_x - 100;
@@ -57,7 +57,7 @@ class WorldSpawner {
 
   /**
    * Spawns a coin at a random position ahead of the character,
-   * up to 10 coins.
+   * up to 14 coins.
    *
    * @returns {void}
    */
@@ -73,7 +73,7 @@ class WorldSpawner {
 
   /**
    * Spawns a bottle on the ground ahead of the character,
-   * up to 8 bottles.
+   * up to 15 bottles.
    *
    * @returns {void}
    */

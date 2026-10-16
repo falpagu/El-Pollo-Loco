@@ -29,7 +29,7 @@ class Chicken extends MovableObject {
    */
   offset = { top: 5, bottom: 5, left: 5, right: 5 };
 
-    /**
+  /**
    * Name of the sound in {@link SoundManager.sounds}.
    * @type {string}
    */
@@ -60,8 +60,9 @@ class Chicken extends MovableObject {
   /**
    * Creates a chicken, loads its images, assigns its position and random
    * speed, and starts the animation.
+   *
    * @param {number} [x=200 + Math.random() * 500] - The starting X position.
-   * */
+   */
   constructor(x = 200 + Math.random() * 500) {
     super();
     this.loadImage(
@@ -120,6 +121,5 @@ class Chicken extends MovableObject {
     if (!near || now - (this.lastSound || 0) < 3000) return;
     this.lastSound = now;
     SoundManager.play(this.soundName);
-   
   }
 }

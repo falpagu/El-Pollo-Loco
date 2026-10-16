@@ -5,9 +5,8 @@
  */
 class SoundManager {
   /**
-   * All game sounds, accessible by name. Ordered by game flow:
-   * music, character, collecting, fight, enemies, game end.
-   * @type {Object<string, HTMLAudioElement>}
+   * Name of the sound used for this enemy.
+   * @type {string}
    */
   static sounds = {
     // Music
@@ -27,11 +26,11 @@ class SoundManager {
     throw: new Audio("assets/audio/throw.mp3"),
     smash: new Audio("assets/audio/smash.mp3"),
     bossHit: new Audio("assets/audio/boss_hit.mp3"),
-    attack: new Audio("assets/audio/angry.mp3"),
+    attack: new Audio("assets/audio/attack.mp3"),
     splash: new Audio("assets/audio/splash.mp3"),
     bossDead: new Audio("assets/audio/bossDead.mp3"),
     pepeDead: new Audio("assets/audio/pepeDead.mp3"),
-    bossAngry: new Audio("assets/audio/attack.mp3"),
+    bossAngry: new Audio("assets/audio/angry.mp3"),
 
     // Enemies
     chicken: new Audio("assets/audio/chicken.mp3"),
@@ -66,13 +65,13 @@ class SoundManager {
     splash: 0.7,
     bossDead: 0.9,
     pepeDead: 0.7,
-    angry: 0.3,
+    bossAngry: 0.3,
 
     chicken: 0.2,
     smallChicken: 0.1,
 
     win: 0.4,
-    lose: 0.4
+    lose: 0.4,
   };
 
   /**
