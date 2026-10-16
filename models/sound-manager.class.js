@@ -22,6 +22,7 @@ class SoundManager {
     lose: new Audio("assets/audio/lose.mp3"),
     sleep: new Audio("assets/audio/snore.mp3"),
     attack: new Audio("assets/audio/attack.mp3"),
+    
   };
 
   /**
@@ -37,6 +38,8 @@ class SoundManager {
    */
   static pausedSounds = [];
 
+  static volumes = { coin: 0.2, hurt: 0.1, smash: 0.4, attack: 0.3, chicken: 0.3 };
+
   /**
    * Plays a sound from the beginning. If it is already playing,
    * it restarts.
@@ -45,9 +48,11 @@ class SoundManager {
    * @returns {void}
    */
   static play(name) {
-    let sound = this.sounds[name];
+    const sound = this.sounds[name];
+    if(!sound) return;
+    if(this.volumes[name] !== undefined) sound.volume = this.volumes[name];
     sound.currentTime = 0;
-    sound.play();
+    sound.play().catch(() => {});
   }
 
   /**

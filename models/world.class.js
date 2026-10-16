@@ -241,7 +241,7 @@ class World {
   throwBottle() {
     let toLeft = this.character.otherDirection;
     let startX = toLeft ? this.character.x - 20 : this.character.x + 100;
-    this.playSound("throw", 0.2);
+      SoundManager.play("throw");
     this.throwableObjects.push(
       new ThrowableObject(startX, this.character.y + 100, toLeft),
     );

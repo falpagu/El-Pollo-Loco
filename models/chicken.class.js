@@ -91,8 +91,7 @@ class Chicken extends MovableObject {
     setInterval(() => {
       if (this.isGamePaused() || this.isDead()) return;
       this.playAnimation(this.IMAGES_WALKING);
-      SoundManager.sounds.chicken.play();
-      SoundManager.sounds.chicken.volume = 0.01;
+      SoundManager.play("chicken");
     }, 200);
   }
 }

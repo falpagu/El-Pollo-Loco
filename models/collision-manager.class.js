@@ -59,7 +59,7 @@ class CollisionManager {
   stompEnemies(enemies) {
     const character = this.world.character;
     enemies.forEach((e) => this.killEnemy(e));
-    if(character.hasStomped) return;
+    if (character.hasStomped) return;
     character.hasStomped = true;
   }
 
@@ -73,7 +73,7 @@ class CollisionManager {
   killEnemy(enemy) {
     const level = this.world.level;
     enemy.die();
-    this.world.playSound("smash", 0.4);
+    SoundManager.play("smash");
     setTimeout(() => {
       level.enemies = level.enemies.filter((e) => e !== enemy);
     }, 300);
@@ -103,7 +103,7 @@ class CollisionManager {
     if (boss.isDead()) return;
     if (!character.isColliding(boss)) return;
     if (character.isHurt()) return;
-    this.world.playSound("attack", 0.4);
+      SoundManager.play("attack");
     this.damageCharacter(40);
   }
 
@@ -117,8 +117,8 @@ class CollisionManager {
   damageCharacter(damage = 20) {
     const { character, statusBarHealth } = this.world;
     character.hit(damage);
-    this.world.playSound("hurt", 0.1);
-    statusBarHealth.setPercentage(character.energy);
+  SoundManager.play("hurt");
+      statusBarHealth.setPercentage(character.energy);
   }
 
   /**
@@ -132,7 +132,7 @@ class CollisionManager {
     level.coins = level.coins.filter((coin) => {
       if (!character.isColliding(coin)) return true;
 
-      this.world.playSound("coin", 0.2);
+       SoundManager.play("coin");
       statusBarCoins.setPercentage(
         Math.min(100, statusBarCoins.percentage + 5),
       );
@@ -149,8 +149,8 @@ class CollisionManager {
     const { character, level, statusBarBottles } = this.world;
     level.bottles = level.bottles.filter((bottle) => {
       if (!character.isColliding(bottle)) return true;
-      if(statusBarBottles.percentage >= 100) return true;
-      this.world.playSound("bottle", 0.2);
+      if (statusBarBottles.percentage >= 100) return true;
+        SoundManager.play("bottle");
       statusBarBottles.setPercentage(
         Math.min(100, statusBarBottles.percentage + 10),
       );
@@ -203,7 +203,7 @@ class CollisionManager {
   hitBoss() {
     const { level, statusBarEndboss } = this.world;
     level.endboss.hitByBottle();
-    this.world.playSound("bossHit", 0.8);
+    SoundManager.play("bossHit");
     statusBarEndboss.setPercentage(level.endboss.energy);
   }
 }
