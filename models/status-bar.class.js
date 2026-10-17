@@ -49,7 +49,7 @@ class StatusBar extends DrawableObject {
  * 0% returns index 5.
  *
  * @returns {number} Index of the image to display (0 to 5).
- *//
+ */
   resolveImageIndex() {
     return 5 - Math.ceil(this.percentage / 20);
   }

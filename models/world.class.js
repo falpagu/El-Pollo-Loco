@@ -66,9 +66,10 @@ class World {
   lastThrow;
 
   /**
- * ID of the pending animation frame. Used by `cancelAnimationFrame`.
- * @type {number|undefined}
- */
+   * Activates the end boss when the character approaches within 400 px.
+   *
+   * @returns {void}
+   */
   animationFrame;
 
   /**
@@ -250,23 +251,23 @@ class World {
     );
   }
 
-/**
- * Sets the volume of a sound and plays it from the start.
- *
- * @param {string} name - Name of the sound in `SoundManager.sounds`.
- * @param {number} volume - Playback volume between 0 and 1.
- * @returns {void}
- */
+  /**
+   * Sets the volume of a sound and plays it from the start.
+   *
+   * @param {string} name - Name of the sound in `SoundManager.sounds`.
+   * @param {number} volume - Playback volume between 0 and 1.
+   * @returns {void}
+   */
   playSound(name, volume) {
     SoundManager.sounds[name].volume = volume;
     SoundManager.play(name);
   }
 
-/**
- * Activates the end boss when the character approaches within 400 px.
- *
- * @returns {void}
- */
+  /**
+   * Activates the end boss when the character approaches within 400 px.
+   *
+   * @returns {void}
+   */
   checkEndbossActivation() {
     let boss = this.level.endboss;
     if (!boss.active && this.character.x > boss.x - 400) {
