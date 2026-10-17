@@ -355,4 +355,23 @@ footer a:hover {
     gap: 12px;
     font-size: 0.75rem;
   }
+
+  body.playing {
+    background: var(--background);
+  }
+
+  body.playing footer {
+    display: none;
+  }
+
+  body.playing .game_container {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    aspect-ratio: auto;
+  }
+
+  body.playing .touch_controls {
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
 }

@@ -30,6 +30,7 @@ function startGame() {
   document.getElementById("fullscreenBtn").style.display = "flex";
   document.getElementById("muteBtn").style.display = "block";
   document.getElementById("pauseBtn").style.display = "block";
+   document.body.classList.add("playing");
   SoundManager.play("background");
   init();
 }
@@ -108,6 +109,7 @@ function backToHome() {
   document.getElementById("muteBtn").style.display = "none";
   document.getElementById("touchControls").classList.remove("visible");
   document.getElementById("pauseBtn").style.display = "none";
+  document.body.classList.remove("playing");
 }
 
 /**
