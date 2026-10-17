@@ -1,4 +1,4 @@
-# El Pollo Loco (in progress) </br> 
+# El Pollo Loco </br> 
 **A jump-and-run online game, created as a training project during my continuing education at the[Developer Akademie](https://developerakademie.com/)** </br> </br> 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
