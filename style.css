@@ -144,7 +144,8 @@ canvas {
   height: 24px;
 }
 
-#muteBtn {
+#muteBtn,
+#pauseBtn {
   display: none;
   background: none;
   border: none;
@@ -154,8 +155,16 @@ canvas {
   padding: 0;
   position: absolute;
   top: 10px;
-  right: 44px;
   z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#muteBtn {
+  right: 44px;
+}
+
+#pauseBtn {
+  right: 78px;
 }
 
 .game_container:fullscreen {

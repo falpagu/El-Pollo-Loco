@@ -143,6 +143,7 @@ class Endboss extends MovableObject {
       }
       this.moveLeft();
       this.otherDirection = false;
+      this.playWalkSound();
     }, 1000 / 60);
 
     setInterval(() => {
@@ -170,6 +171,26 @@ class Endboss extends MovableObject {
     if (typeof world === "undefined" || !world || !world.character)
       return false;
     return this.isColliding(world.character) && !world.character.isDead();
+  }
+
+  /**
+   * Plays the walking sound as a loop if it is not already playing.
+   *
+   * @returns {void}
+   */
+  playWalkSound() {
+    if (SoundManager.sounds.bossWalk.paused) SoundManager.play("bossWalk");
+  }
+
+  /**
+   * Stops the walking sound and resets it to the beginning.
+   *
+   * @returns {void}
+   */
+  stopWalkSound() {
+    const sound = SoundManager.sounds.bossWalk;
+    sound.pause();
+    sound.currentTime = 0;
   }
 
   /**

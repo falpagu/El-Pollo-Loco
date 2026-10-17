@@ -29,6 +29,7 @@ function startGame() {
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("fullscreenBtn").style.display = "flex";
   document.getElementById("muteBtn").style.display = "block";
+  document.getElementById("pauseBtn").style.display = "block";
   SoundManager.play("background");
   init();
 }
@@ -57,6 +58,7 @@ function stopGame() {
   cancelAnimationFrame(world.animationFrame);
   SoundManager.sounds.walk.pause();
   SoundManager.sounds.chicken.pause();
+  SoundManager.sounds.smallChicken.pause();
   SoundManager.sounds.sleep.pause();
 }
 
@@ -70,6 +72,7 @@ function stopGame() {
 function endGame(won) {
   stopGame();
   SoundManager.sounds.background.pause();
+  SoundManager.sounds.bossWalk.pause();
   SoundManager.play(won ? "win" : "lose");
   document.getElementById("endImage").src = won
     ? "./assets/img/You won, you lost/You Won B.png"
@@ -104,6 +107,7 @@ function backToHome() {
   document.getElementById("fullscreenBtn").style.display = "none";
   document.getElementById("muteBtn").style.display = "none";
   document.getElementById("touchControls").classList.remove("visible");
+  document.getElementById("pauseBtn").style.display = "none";
 }
 
 /**
@@ -258,15 +262,35 @@ function toggleSound() {
 updateMuteIcon();
 
 /**
+ * Toggles pause and updates the pause button icon.
+ *
+ * @returns {void}
+ */
+function togglePause() {
+  document.activeElement.blur();
+  if (!world) return;
+  world.togglePause();
+  updatePauseIcon();
+}
+
+/**
+ * Shows the play icon while paused and the pause icon while running.
+ *
+ * @returns {void}
+ */
+function updatePauseIcon() {
+  document.getElementById("pauseBtn").innerHTML =
+    world && world.isPaused ? "▶️" : "⏸️";
+}
+
+/**
  * Toggles pause when the Escape key is pressed.
  *
  * @param {KeyboardEvent} e - The keyboard event.
  * @returns {void}
  */
 window.addEventListener("keydown", (e) => {
-  if (e.code === "Escape" && world) {
-    world.togglePause();
-  }
+  if (e.code === "Escape" && !e.repeat) togglePause();
 });
 
 /**
